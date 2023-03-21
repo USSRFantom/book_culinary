@@ -1,4 +1,4 @@
-import 'package:culinary_book/view/section/home_screen/home_screen.dart';
+import 'package:book_culinary/view/section/home_screen/home_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {

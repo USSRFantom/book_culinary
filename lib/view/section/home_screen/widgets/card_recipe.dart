@@ -1,4 +1,4 @@
-import 'package:culinary_book/helpers/constants/constant_colors.dart';
+import 'package:book_culinary/helpers/constants/constant_colors.dart';
 import 'package:flutter/material.dart';
 
 class CardRecipe extends StatelessWidget {
