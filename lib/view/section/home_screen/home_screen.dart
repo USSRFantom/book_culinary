@@ -1,6 +1,6 @@
 import 'package:culinary_book/domain/models/recipe_model.dart';
 import 'package:culinary_book/helpers/constants/constant_colors.dart';
-import 'package:culinary_book/view/section/home_screen/widgets/cardRecipe.dart';
+import 'package:culinary_book/view/section/home_screen/widgets/card_recipe.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
