@@ -11,36 +11,29 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<RecipeModel> listModelRecipe = [];
+  List<RecipeModel> listModelRecipe = [
+    RecipeModel(
+        img: 'assets/svg/img1.png', title: 'Лосось в соусе терияки', time: 45),
+    RecipeModel(
+        img: 'assets/svg/img2.png', title: 'Поке боул с сыром тофу', time: 30),
+    RecipeModel(
+        img: 'assets/svg/img3.png',
+        title: 'Стейк из говядины по грущзински с сыром и чесноком',
+        time: 75),
+    RecipeModel(
+        img: 'assets/svg/img4.png',
+        title: 'Тосты с голубикой и бананом',
+        time: 45),
+    RecipeModel(
+        img: 'assets/svg/img5.png', title: 'Паста с морепродуктами', time: 25),
+    RecipeModel(
+        img: 'assets/svg/img6.png',
+        title: 'Пицца Маргарита домашняя',
+        time: 25),
+  ];
 
   @override
   void initState() {
-    listModelRecipe = [
-      RecipeModel(
-          img: 'assets/svg/img1.png',
-          title: 'Лосось в соусе терияки',
-          time: 45),
-      RecipeModel(
-          img: 'assets/svg/img2.png',
-          title: 'Поке боул с сыром тофу',
-          time: 30),
-      RecipeModel(
-          img: 'assets/svg/img3.png',
-          title: 'Стейк из говядины по грущзински с сыром и чесноком',
-          time: 75),
-      RecipeModel(
-          img: 'assets/svg/img4.png',
-          title: 'Тосты с голубикой и бананом',
-          time: 45),
-      RecipeModel(
-          img: 'assets/svg/img5.png',
-          title: 'Паста с морепродуктами',
-          time: 25),
-      RecipeModel(
-          img: 'assets/svg/img6.png',
-          title: 'Пицца Маргарита домашняя',
-          time: 25),
-    ];
     super.initState();
   }
 
