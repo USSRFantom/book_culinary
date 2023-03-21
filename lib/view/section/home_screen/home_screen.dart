@@ -16,13 +16,30 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     listModelRecipe = [
-      RecipeModel('assets/svg/img1.png', 'Лосось в соусе терияки', 45),
-      RecipeModel('assets/svg/img2.png', 'Поке боул с сыром тофу', 30),
-      RecipeModel('assets/svg/img3.png',
-          'Стейк из говядины по грущзински с сыром и чесноком', 75),
-      RecipeModel('assets/svg/img4.png', 'Тосты с голубикой и бананом', 45),
-      RecipeModel('assets/svg/img5.png', 'Паста с морепродуктами', 25),
-      RecipeModel('assets/svg/img6.png', 'Пицца Маргарита домашняя', 25),
+      RecipeModel(
+          img: 'assets/svg/img1.png',
+          title: 'Лосось в соусе терияки',
+          time: 45),
+      RecipeModel(
+          img: 'assets/svg/img2.png',
+          title: 'Поке боул с сыром тофу',
+          time: 30),
+      RecipeModel(
+          img: 'assets/svg/img3.png',
+          title: 'Стейк из говядины по грущзински с сыром и чесноком',
+          time: 75),
+      RecipeModel(
+          img: 'assets/svg/img4.png',
+          title: 'Тосты с голубикой и бананом',
+          time: 45),
+      RecipeModel(
+          img: 'assets/svg/img5.png',
+          title: 'Паста с морепродуктами',
+          time: 25),
+      RecipeModel(
+          img: 'assets/svg/img6.png',
+          title: 'Пицца Маргарита домашняя',
+          time: 25),
     ];
     super.initState();
   }

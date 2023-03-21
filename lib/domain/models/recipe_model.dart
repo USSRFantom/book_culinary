@@ -3,5 +3,5 @@ class RecipeModel {
   final String title;
   final int time;
 
-  RecipeModel(this.img, this.title, this.time);
+  RecipeModel({required this.img, required this.title, required this.time});
 }
