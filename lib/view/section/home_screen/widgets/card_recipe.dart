@@ -58,10 +58,15 @@ class CardRecipe extends StatelessWidget {
                         const SizedBox(
                           width: 11,
                         ),
-                        Text(
-                          '$time мин',
-                          style: TextStyle(fontSize: 16, color: greenColor),
-                        ),
+                        time < 60
+                            ? Text('$time мин',
+                                style:
+                                    TextStyle(fontSize: 16, color: greenColor))
+                            : Text(
+                                '1 час ${time - 60} мин',
+                                style:
+                                    TextStyle(fontSize: 16, color: greenColor),
+                              ),
                       ],
                     ),
                   )
