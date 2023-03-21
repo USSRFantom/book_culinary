@@ -14,7 +14,7 @@ class CardRecipe extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: colorWhite,
+        color: whiteColor,
         borderRadius: BorderRadius.circular(5),
       ),
       height: 136,
@@ -60,7 +60,7 @@ class CardRecipe extends StatelessWidget {
                         ),
                         Text(
                           '$time мин',
-                          style: TextStyle(fontSize: 16, color: colorGreen),
+                          style: TextStyle(fontSize: 16, color: greenColor),
                         ),
                       ],
                     ),
