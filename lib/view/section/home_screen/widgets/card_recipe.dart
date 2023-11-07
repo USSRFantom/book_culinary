@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class CardRecipe extends StatelessWidget {
   final String img;
   final String title;
-  final int time;
+  final int? time;
 
   const CardRecipe(
       {Key? key, required this.img, required this.title, required this.time})
@@ -24,7 +24,7 @@ class CardRecipe extends StatelessWidget {
             width: 149,
             height: 136,
             child: Image(
-              image: AssetImage(
+              image: NetworkImage(
                 img,
               ),
             ),
@@ -45,8 +45,8 @@ class CardRecipe extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 12),
                     child: Row(
-                      children: [
-                        const SizedBox(
+                      children: const [
+                        SizedBox(
                           width: 16,
                           height: 16,
                           child: Image(
@@ -55,18 +55,18 @@ class CardRecipe extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const SizedBox(
+                        SizedBox(
                           width: 11,
                         ),
-                        time < 60
-                            ? Text('$time мин',
-                                style:
-                                    TextStyle(fontSize: 16, color: greenColor))
-                            : Text(
-                                '1 час ${time - 60} мин',
-                                style:
-                                    TextStyle(fontSize: 16, color: greenColor),
-                              ),
+                        //   time < 60
+                        //       ? Text('$time мин',
+                        //           style:
+                        //               TextStyle(fontSize: 16, color: greenColor))
+                        //       : Text(
+                        //           '1 час ${time - 60} мин',
+                        //           style:
+                        //               TextStyle(fontSize: 16, color: greenColor),
+                        //         ),
                       ],
                     ),
                   )

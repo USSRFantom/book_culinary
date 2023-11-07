@@ -1,7 +1,10 @@
-import 'package:book_culinary/domain/models/recipe_model.dart';
-import 'package:book_culinary/helpers/constants/constant_colors.dart';
-import 'package:book_culinary/view/section/home_screen/widgets/card_recipe.dart';
+import 'package:book_culinary/view/section/home_screen/cubit/meals_cubit.dart';
+import 'package:book_culinary/view/section/home_screen/cubit/meals_state.dart';
+import 'package:book_culinary/view/section/home_screen/states/home_screen_error.dart';
+import 'package:book_culinary/view/section/home_screen/states/home_screen_loading.dart';
+import 'package:book_culinary/view/section/home_screen/states/home_screen_success.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -11,63 +14,35 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<RecipeModel> listModelRecipe = [
-    RecipeModel(
-        img: 'assets/svg/img1.png', title: 'Лосось в соусе терияки', time: 45),
-    RecipeModel(
-        img: 'assets/svg/img2.png', title: 'Поке боул с сыром тофу', time: 30),
-    RecipeModel(
-        img: 'assets/svg/img3.png',
-        title: 'Стейк из говядины по грущзински с сыром и чесноком',
-        time: 75),
-    RecipeModel(
-        img: 'assets/svg/img4.png',
-        title: 'Тосты с голубикой и бананом',
-        time: 45),
-    RecipeModel(
-        img: 'assets/svg/img5.png', title: 'Паста с морепродуктами', time: 25),
-    RecipeModel(
-        img: 'assets/svg/img6.png',
-        title: 'Пицца Маргарита домашняя',
-        time: 25),
-  ];
+  late final MealsCubit _mealsCubit;
 
   @override
   void initState() {
+    _mealsCubit = context.read();
+    _mealsCubit.fetchAllMeals();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColor,
       body: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16, top: 45),
-        child: SingleChildScrollView(
-          child: Column(
-            children: _listWidgetRecipe(listModelRecipe),
-          ),
+        child: BlocConsumer<MealsCubit, MealsState>(
+          bloc: _mealsCubit,
+          builder: (context, state) {
+            print(state);
+            return state.status.when(
+                loading: () => const HomeScreenLoading(),
+                error: (error) => const HomeScreenError(),
+                success: () => const HomeScreenSuccess());
+          },
+          listener: (context, state) {
+            if (state.error != null) {}
+          },
+          //children: _listWidgetRecipe(listModelRecipe),
         ),
       ),
     );
-  }
-
-  List<Widget> _listWidgetRecipe(List<RecipeModel> listRecipeModel) {
-    List<Widget> result = [];
-    for (var element in listRecipeModel) {
-      result.add(
-        Column(
-          children: [
-            CardRecipe(
-              img: element.img,
-              title: element.title,
-              time: element.time,
-            ),
-            const SizedBox(height: 24)
-          ],
-        ),
-      );
-    }
-    return result;
   }
 }
