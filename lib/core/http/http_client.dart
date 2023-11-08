@@ -57,9 +57,6 @@ class AppHttpClient {
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
       );
-      print(
-          '12312312312312312312312123123123123123123123121231231231231231231231212312312312312312312312');
-      print(response);
       return handleListResponse(response, mapper);
     } on Exception catch (e) {
       return handleException(e);

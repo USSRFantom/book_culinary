@@ -19,26 +19,24 @@ class HomeScreenLoading extends StatelessWidget {
           baseColor: Colors.grey[300]!,
           highlightColor: Colors.grey[100]!,
           enabled: true,
-          child: Expanded(
-            child: ListView(
-              children: [
-                ...List.generate(9, (index) {
-                  return Column(
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        height: 56,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: Colors.white,
-                        ),
+          child: ListView(
+            children: [
+              ...List.generate(9, (index) {
+                return Column(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: 56,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: Colors.white,
                       ),
-                      const SizedBox(height: 12),
-                    ],
-                  );
-                }),
-              ],
-            ),
+                    ),
+                    const SizedBox(height: 12),
+                  ],
+                );
+              }),
+            ],
           ),
         ),
       ),

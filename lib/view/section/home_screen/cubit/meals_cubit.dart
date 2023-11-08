@@ -13,13 +13,21 @@ class MealsCubit extends Cubit<MealsState> {
 
   final List<Meals> _allMeals = [];
   int _page = 1;
+  String _searchQuery = 'c';
 
   Future<void> fetchAllMeals() async {
     emit(state.copyWith(error: null));
     if (_page == 1) {
       emit(state.copyWith(status: const StateStatus.loading()));
       _allMeals.clear();
-      final dataResponse = await _mealsRepository.fetchMeals(page: _page);
+      final dataResponse = await _mealsRepository.fetchMeals(
+        _page,
+        {
+          "f": _searchQuery.isNotEmpty
+              ? _searchQuery.trim().toLowerCase()
+              : null,
+        },
+      );
       dataResponse.when(
         data: (data) {
           emit(
@@ -41,7 +49,12 @@ class MealsCubit extends Cubit<MealsState> {
       );
     } else {
       final dataResponse = await _mealsRepository.fetchMeals(
-        page: _page,
+        _page,
+        {
+          "f": _searchQuery.isNotEmpty
+              ? _searchQuery.trim().toLowerCase()
+              : null,
+        },
       );
 
       dataResponse.when(

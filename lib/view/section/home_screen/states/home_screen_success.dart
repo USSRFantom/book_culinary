@@ -34,58 +34,58 @@ class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
   @override
   Widget build(BuildContext context) {
     List<Meals> meals = context.watch<MealsCubit>().state.meals;
-
-    return NotificationListener<ScrollNotification>(
-      onNotification: (ScrollNotification scrollInfo) {
-        if (scrollInfo is ScrollUpdateNotification &&
-            scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent &&
-            kIsWeb &&
-            _cubit.state.allPagesLoaded &&
-            (defaultTargetPlatform == TargetPlatform.linux ||
-                defaultTargetPlatform == TargetPlatform.macOS ||
-                defaultTargetPlatform == TargetPlatform.windows)) {
-          _refreshController.requestLoading();
-        }
-        return false;
-      },
-      child: SmartRefresher(
-        header: const ClassicHeader(
-          releaseText: '',
-          refreshingText: '',
-          idleText: '',
-          completeText: '',
-        ),
-        footer: CustomFooter(
-          builder: (BuildContext context, LoadStatus? mode) {
-            if (mode == LoadStatus.loading) {
-              return Container(
-                alignment: Alignment.center,
-                height: 56,
-                child: const SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                  ),
-                ),
-              );
-            } else {
-              return Container();
-            }
-          },
-        ),
-        controller: _refreshController,
-        onRefresh: () {
-          _cubit
-              .fetchAllMeals()
-              .whenComplete(_refreshController.refreshCompleted);
+    print(meals.length);
+    return Expanded(
+      child: NotificationListener<ScrollNotification>(
+        onNotification: (ScrollNotification scrollInfo) {
+          if (scrollInfo is ScrollUpdateNotification &&
+              scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent &&
+              kIsWeb &&
+              _cubit.state.allPagesLoaded &&
+              (defaultTargetPlatform == TargetPlatform.linux ||
+                  defaultTargetPlatform == TargetPlatform.macOS ||
+                  defaultTargetPlatform == TargetPlatform.windows)) {
+            _refreshController.requestLoading();
+          }
+          return false;
         },
+        child: SmartRefresher(
+          header: const ClassicHeader(
+            releaseText: '',
+            refreshingText: '',
+            idleText: '',
+            completeText: '',
+          ),
+          footer: CustomFooter(
+            builder: (BuildContext context, LoadStatus? mode) {
+              if (mode == LoadStatus.loading) {
+                return Container(
+                  alignment: Alignment.center,
+                  height: 56,
+                  child: const SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                    ),
+                  ),
+                );
+              } else {
+                return Container();
+              }
+            },
+          ),
+          controller: _refreshController,
+          onRefresh: () {
+            _cubit
+                .fetchAllMeals()
+                .whenComplete(_refreshController.refreshCompleted);
+          },
 
-        // child: stores.isEmpty
-        //     ? const EmptyDataWidget(
-        //         text: AppStrings.storesScreenStoresListEmptyTitle)
-        //     :
-        child: Expanded(
+          // child: stores.isEmpty
+          //     ? const EmptyDataWidget(
+          //         text: AppStrings.storesScreenStoresListEmptyTitle)
+          //     :
           child: ListView.separated(
             padding: const EdgeInsets.only(
               left: 16,

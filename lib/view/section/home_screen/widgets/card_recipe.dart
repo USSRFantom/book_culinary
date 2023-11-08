@@ -17,16 +17,23 @@ class CardRecipe extends StatelessWidget {
         color: whiteColor,
         borderRadius: BorderRadius.circular(5),
       ),
-      height: 136,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            width: 149,
-            height: 136,
-            child: Image(
-              image: NetworkImage(
-                img,
-              ),
+          Align(
+            child: Container(
+              width: 149,
+              height: 149,
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(5),
+                    bottomLeft: Radius.circular(5),
+                  ),
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      img,
+                    ),
+                  )),
             ),
           ),
           Expanded(
@@ -34,16 +41,15 @@ class CardRecipe extends StatelessWidget {
               padding: const EdgeInsets.only(left: 16, top: 30, right: 23),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
                     title,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
                     style: const TextStyle(
                         fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 12),
+                    padding: const EdgeInsets.only(top: 12, bottom: 12),
                     child: Row(
                       children: const [
                         SizedBox(
@@ -55,18 +61,7 @@ class CardRecipe extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          width: 11,
-                        ),
-                        //   time < 60
-                        //       ? Text('$time мин',
-                        //           style:
-                        //               TextStyle(fontSize: 16, color: greenColor))
-                        //       : Text(
-                        //           '1 час ${time - 60} мин',
-                        //           style:
-                        //               TextStyle(fontSize: 16, color: greenColor),
-                        //         ),
+                        Text(' 120 мин'),
                       ],
                     ),
                   )

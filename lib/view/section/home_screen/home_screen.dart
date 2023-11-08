@@ -1,3 +1,4 @@
+import 'package:book_culinary/helpers/constants/constant_colors.dart';
 import 'package:book_culinary/view/section/home_screen/cubit/meals_cubit.dart';
 import 'package:book_culinary/view/section/home_screen/cubit/meals_state.dart';
 import 'package:book_culinary/view/section/home_screen/states/home_screen_error.dart';
@@ -26,12 +27,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       body: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16, top: 45),
         child: BlocConsumer<MealsCubit, MealsState>(
           bloc: _mealsCubit,
           builder: (context, state) {
-            print(state);
             return state.status.when(
                 loading: () => const HomeScreenLoading(),
                 error: (error) => const HomeScreenError(),
