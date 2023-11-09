@@ -8,27 +8,29 @@ class HomeScreenError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints(
-        maxWidth: 872,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Text(
-            AppStrings.dataLoadingError,
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 4),
-          InkWell(
-            onTap: () {
-              context.read<MealsCubit>().fetchAllMeals();
-            },
-            child: const Text(
-              "Повторить",
+    return Expanded(
+      child: Container(
+        constraints: const BoxConstraints(
+          maxWidth: 872,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              AppStrings.dataLoadingError,
+              textAlign: TextAlign.center,
             ),
-          )
-        ],
+            const SizedBox(height: 4),
+            InkWell(
+              onTap: () {
+                context.read<MealsCubit>().fetchAllMeals();
+              },
+              child: const Text(
+                "Повторить",
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

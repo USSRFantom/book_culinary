@@ -12,6 +12,9 @@ class CardRecipe extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(img);
+    print(title);
+    print(time);
     return Container(
       decoration: BoxDecoration(
         color: whiteColor,
@@ -51,8 +54,8 @@ class CardRecipe extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 12, bottom: 12),
                     child: Row(
-                      children: const [
-                        SizedBox(
+                      children: [
+                        const SizedBox(
                           width: 16,
                           height: 16,
                           child: Image(
@@ -61,7 +64,11 @@ class CardRecipe extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Text(' 120 мин'),
+                        const SizedBox(width: 11),
+                        Text(
+                          ' 120 мин',
+                          style: TextStyle(color: greenColor),
+                        ),
                       ],
                     ),
                   )

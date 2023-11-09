@@ -12,9 +12,10 @@ abstract class FetchData {
     required Future Function(T) saveToLocalStorage,
     required Future<DataResponse<T>> Function() getFromLocalStorage,
   }) async {
+    print('1231231');
     final bool isConnected =
         kIsWeb ? true : await InternetConnectionChecker().hasConnection;
-
+    print(isConnected);
     if (isConnected) {
       final remoteResponse = await getFromRemote();
       await remoteResponse.when(
@@ -26,6 +27,8 @@ abstract class FetchData {
       return remoteResponse;
     } else {
       final localResponse = await getFromLocalStorage();
+      print('12312312312312312312312312312312312312');
+      print(localResponse);
       return localResponse;
     }
   }

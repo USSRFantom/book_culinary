@@ -33,10 +33,14 @@ class _HomeScreenState extends State<HomeScreen> {
         child: BlocConsumer<MealsCubit, MealsState>(
           bloc: _mealsCubit,
           builder: (context, state) {
-            return state.status.when(
-                loading: () => const HomeScreenLoading(),
-                error: (error) => const HomeScreenError(),
-                success: () => const HomeScreenSuccess());
+            return Column(
+              children: [
+                state.status.when(
+                    loading: () => const HomeScreenLoading(),
+                    error: (error) => const HomeScreenError(),
+                    success: () => const HomeScreenSuccess()),
+              ],
+            );
           },
           listener: (context, state) {
             if (state.error != null) {}

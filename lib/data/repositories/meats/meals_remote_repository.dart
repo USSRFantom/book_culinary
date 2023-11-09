@@ -5,7 +5,6 @@ import 'package:book_culinary/domain/models/meals.dart';
 
 class MealsRemoteRepository {
   Future<DataResponse<List<Meals>>> getMeals(
-    int page,
     Map<String, dynamic>? params,
   ) async {
     Map<String, dynamic> queryParameters = {};
@@ -17,7 +16,7 @@ class MealsRemoteRepository {
       }
     }
     return await httpClient.getList<Meals>(
-      '${ApiRoutes.getMeals}',
+      ApiRoutes.getMeals,
       Meals.fromJson,
       queryParameters: queryParameters,
     );

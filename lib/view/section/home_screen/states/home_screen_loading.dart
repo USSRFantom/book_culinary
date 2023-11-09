@@ -6,37 +6,39 @@ class HomeScreenLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints(
-        maxWidth: 872.0,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 20,
+    return Expanded(
+      child: Container(
+        constraints: const BoxConstraints(
+          maxWidth: 872.0,
         ),
-        child: Shimmer.fromColors(
-          baseColor: Colors.grey[300]!,
-          highlightColor: Colors.grey[100]!,
-          enabled: true,
-          child: ListView(
-            children: [
-              ...List.generate(9, (index) {
-                return Column(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      height: 56,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 20,
+          ),
+          child: Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            enabled: true,
+            child: ListView(
+              children: [
+                ...List.generate(9, (index) {
+                  return Column(
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        height: 56,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 12),
-                  ],
-                );
-              }),
-            ],
+                      const SizedBox(height: 12),
+                    ],
+                  );
+                }),
+              ],
+            ),
           ),
         ),
       ),

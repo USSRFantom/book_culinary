@@ -15,8 +15,6 @@ AppHttpClient get httpClient => getIt<AppHttpClient>();
 
 class AppHttpClient {
   late Dio _dio;
-  String? _traceId;
-
   Dio get dio => _dio;
 
   AppHttpClient() {

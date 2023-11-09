@@ -17,7 +17,6 @@ class MealsRepository {
     if (page == 1) {
       return FetchData.fromRemoteWithSaveElseLocal<List<Meals>>(
         getFromRemote: () => _remoteRepository.getMeals(
-          page,
           params,
         ),
         getFromLocalStorage: () => _localRepository.getMeals(),
@@ -29,13 +28,12 @@ class MealsRepository {
     } else if (page > 1) {
       // Получаем данные только с бэка, сохраняем в кэш
       return FetchData.fromRemoteWithSave<List<Meals>>(
-        getFromRemote: () => _remoteRepository.getMeals(page, params),
+        getFromRemote: () => _remoteRepository.getMeals(params),
         saveToLocalStorage: (value) => _localRepository.saveMeals(value),
       );
     } else {
       return FetchData.fromRemoteWithSave<List<Meals>>(
         getFromRemote: () => _remoteRepository.getMeals(
-          page,
           params,
         ),
         saveToLocalStorage: (value) => _localRepository.saveMeals(value),
