@@ -22,11 +22,7 @@ class MealsRepository {
         getFromLocalStorage: () => _localRepository.getMeals(),
         saveToLocalStorage: (value) => _localRepository.saveMeals(value),
       );
-      // Загрузка следующих страниц , без фильтров
-      // Получаем данные только с бэка
-      // Сохраняем в кэш
     } else if (page > 1) {
-      // Получаем данные только с бэка, сохраняем в кэш
       return FetchData.fromRemoteWithSave<List<Meals>>(
         getFromRemote: () => _remoteRepository.getMeals(params),
         saveToLocalStorage: (value) => _localRepository.saveMeals(value),

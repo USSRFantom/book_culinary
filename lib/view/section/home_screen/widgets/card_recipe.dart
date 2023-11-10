@@ -12,9 +12,6 @@ class CardRecipe extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(img);
-    print(title);
-    print(time);
     return Container(
       decoration: BoxDecoration(
         color: whiteColor,

@@ -1,4 +1,5 @@
 import 'package:book_culinary/domain/models/meals.dart';
+import 'package:book_culinary/helpers/constants/empty_data_widget.dart';
 import 'package:book_culinary/view/section/%20detailed_recipe/detailed_recipe_screen.dart';
 import 'package:book_culinary/view/section/home_screen/cubit/meals_cubit.dart';
 import 'package:book_culinary/view/section/home_screen/widgets/card_recipe.dart';
@@ -34,7 +35,7 @@ class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
   @override
   Widget build(BuildContext context) {
     List<Meals> meals = context.watch<MealsCubit>().state.meals;
-    print(meals.length);
+
     return Expanded(
       child: NotificationListener<ScrollNotification>(
         onNotification: (ScrollNotification scrollInfo) {
@@ -50,6 +51,7 @@ class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
           return false;
         },
         child: SmartRefresher(
+          primary: true,
           header: const ClassicHeader(
             releaseText: '',
             refreshingText: '',
@@ -75,47 +77,56 @@ class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
               }
             },
           ),
+          enablePullDown: true,
+          enablePullUp: true,
           controller: _refreshController,
+          onLoading: () {
+            _cubit
+                .fetchAllMeals()
+                .whenComplete(_refreshController.loadComplete);
+          },
           onRefresh: () {
+            _cubit.setPageAllToStart();
             _cubit
                 .fetchAllMeals()
                 .whenComplete(_refreshController.refreshCompleted);
           },
-
-          // child: stores.isEmpty
-          //     ? const EmptyDataWidget(
-          //         text: AppStrings.storesScreenStoresListEmptyTitle)
-          //     :
-          child: ListView.separated(
-            padding: const EdgeInsets.only(
-              left: 16,
-              right: 20,
-              top: 20,
-            ),
-            itemBuilder: (context, index) {
-              return Column(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const DetailedRecipeScreen()),
-                      );
-                    },
-                    child: CardRecipe(
-                      img: meals[index].strMealThumb!,
-                      title: meals[index].strMeal!,
-                      time: 0,
-                    ),
+          child: meals.isEmpty
+              ? const EmptyDataWidget(
+                  text: 'Ошибка базы данных! '
+                      'Потяните экран вниз для повторного получения данных',
+                )
+              : ListView.separated(
+                  padding: const EdgeInsets.only(
+                    left: 16,
+                    right: 20,
+                    top: 20,
                   ),
-                  const SizedBox(height: 24)
-                ],
-              );
-            },
-            separatorBuilder: (_, __) => const SizedBox(height: 12),
-            itemCount: meals.length,
-          ),
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const DetailedRecipeScreen()),
+                            );
+                          },
+                          child: CardRecipe(
+                            img: meals[index].strMealThumb!,
+                            title: meals[index].strMeal!,
+                            time: 0,
+                          ),
+                        ),
+                        const SizedBox(height: 24)
+                      ],
+                    );
+                  },
+                  separatorBuilder: (_, __) => const SizedBox(height: 12),
+                  itemCount: meals.length,
+                ),
         ),
       ),
     );
