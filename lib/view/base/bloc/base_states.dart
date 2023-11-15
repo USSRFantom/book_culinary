@@ -9,6 +9,7 @@ class BaseCubitState with _$BaseCubitState {
   const factory BaseCubitState.loading() = BaseCubitStateLoading;
   const factory BaseCubitState.error(AppError error) = BaseCubitStateError;
   const factory BaseCubitState.success({
-    required bool hasInternetConnection,
+    required bool has
+    InternetConnection,
   }) = StoresStateSuccess;
 }

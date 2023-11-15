@@ -1,7 +1,7 @@
 import 'package:book_culinary/helpers/constants/constant_colors.dart';
 import 'package:flutter/material.dart';
 
-class CardRecipe extends StatelessWidget {
+class CardRecipe extends StatefulWidget {
   final String img;
   final String title;
   final int? time;
@@ -10,6 +10,11 @@ class CardRecipe extends StatelessWidget {
       {Key? key, required this.img, required this.title, required this.time})
       : super(key: key);
 
+  @override
+  State<CardRecipe> createState() => _CardRecipeState();
+}
+
+class _CardRecipeState extends State<CardRecipe> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,16 +29,19 @@ class CardRecipe extends StatelessWidget {
             child: Container(
               width: 149,
               height: 149,
-              decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(5),
-                    bottomLeft: Radius.circular(5),
-                  ),
-                  image: DecorationImage(
-                    image: NetworkImage(
-                      img,
-                    ),
-                  )),
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(5),
+                  bottomLeft: Radius.circular(5),
+                ),
+              ),
+              child: Image.network(
+                widget.img,
+                errorBuilder: (BuildContext context, Object exception,
+                    StackTrace? stackTrace) {
+                  return Image.asset('assets/svg/internet.png');
+                },
+              ),
             ),
           ),
           Expanded(
@@ -44,7 +52,7 @@ class CardRecipe extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    title,
+                    widget.title,
                     style: const TextStyle(
                         fontSize: 22, fontWeight: FontWeight.bold),
                   ),
