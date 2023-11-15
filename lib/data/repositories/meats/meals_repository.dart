@@ -16,9 +16,7 @@ class MealsRepository {
   ) async {
     if (page == 1) {
       return FetchData.fromRemoteWithSaveElseLocal<List<Meals>>(
-        getFromRemote: () => _remoteRepository.getMeals(
-          params,
-        ),
+        getFromRemote: () => _remoteRepository.getMeals(params),
         getFromLocalStorage: () => _localRepository.getMeals(),
         saveToLocalStorage: (value) => _localRepository.saveMeals(value),
       );
