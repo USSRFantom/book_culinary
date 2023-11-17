@@ -1,6 +1,6 @@
 import 'package:book_culinary/domain/models/meals.dart';
 import 'package:book_culinary/helpers/constants/empty_data_widget.dart';
-import 'package:book_culinary/view/section/%20detailed_recipe/detailed_recipe_screen.dart';
+import 'package:book_culinary/view/section/detailed_recipe/detailed_recipe_screen.dart';
 import 'package:book_culinary/view/section/home_screen/cubit/meals_cubit.dart';
 import 'package:book_culinary/view/section/home_screen/widgets/card_recipe.dart';
 import 'package:flutter/foundation.dart';

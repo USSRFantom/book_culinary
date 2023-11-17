@@ -2,7 +2,7 @@ import 'package:book_culinary/core/http/http_client.dart';
 import 'package:book_culinary/domain/models/meals.dart';
 import 'package:book_culinary/locator_service.dart' as di;
 import 'package:book_culinary/view/section/home_screen/cubit/meals_cubit.dart';
-import 'package:book_culinary/view/section/home_screen/home_screen.dart';
+import 'package:book_culinary/view/section/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
             create: (context) => serviceLocator<MealsCubit>()),
       ],
       child: ScreenUtilInit(
-        builder: (context, widget) => const HomeScreen(),
+        builder: (context, widget) => const MainScreen(),
         designSize: const Size(375, 812),
       ),
     );
