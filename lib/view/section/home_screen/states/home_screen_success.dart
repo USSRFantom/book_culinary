@@ -110,8 +110,8 @@ class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const DetailedRecipeScreen()),
+                                  builder: (context) => DetailedRecipeScreen(
+                                      meals[index].strMeal)),
                             );
                           },
                           child: CardRecipe(

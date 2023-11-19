@@ -34,68 +34,70 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      bottomNavigationBar: BottomNavigationBar(
-          showSelectedLabels: true,
-          showUnselectedLabels: true,
-          backgroundColor: backgroundColor,
-          type: BottomNavigationBarType.fixed,
-          currentIndex: _selectedIndex,
-          selectedItemColor: greenColor,
-          unselectedItemColor: Colors.grey,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: ImageIcon(
-                AssetImage('assets/svg/pizza2.png'),
+    return MaterialApp(
+      home: Scaffold(
+        backgroundColor: backgroundColor,
+        bottomNavigationBar: BottomNavigationBar(
+            showSelectedLabels: true,
+            showUnselectedLabels: true,
+            backgroundColor: backgroundColor,
+            type: BottomNavigationBarType.fixed,
+            currentIndex: _selectedIndex,
+            selectedItemColor: greenColor,
+            unselectedItemColor: Colors.grey,
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: ImageIcon(
+                  AssetImage('assets/svg/pizza2.png'),
+                ),
+                label: 'Рецепты',
               ),
-              label: 'Рецепты',
-            ),
-            BottomNavigationBarItem(
-              icon: ImageIcon(
-                AssetImage('assets/svg/fridge.png'),
+              BottomNavigationBarItem(
+                icon: ImageIcon(
+                  AssetImage('assets/svg/fridge.png'),
+                ),
+                label: 'Холодильник',
               ),
-              label: 'Холодильник',
-            ),
-            BottomNavigationBarItem(
-              icon: ImageIcon(
-                AssetImage('assets/svg/favorites.png'),
+              BottomNavigationBarItem(
+                icon: ImageIcon(
+                  AssetImage('assets/svg/favorites.png'),
+                ),
+                label: 'Избранное',
               ),
-              label: 'Избранное',
-            ),
-            BottomNavigationBarItem(
-              icon: ImageIcon(
-                AssetImage('assets/svg/profile.png'),
+              BottomNavigationBarItem(
+                icon: ImageIcon(
+                  AssetImage('assets/svg/profile.png'),
+                ),
+                label: 'Профиль',
               ),
-              label: 'Профиль',
+            ],
+            onTap: (int tappedIndex) {
+              _onItemTapped(tappedIndex);
+            }),
+        body: Padding(
+          padding: const EdgeInsets.only(top: 45),
+          child: <Widget>[
+            BlocConsumer<MealsCubit, MealsState>(
+              bloc: _mealsCubit,
+              builder: (context, state) {
+                return Column(
+                  children: [
+                    state.status.when(
+                        loading: () => const HomeScreenLoading(),
+                        error: (error) => const HomeScreenError(),
+                        success: () => const HomeScreenSuccess()),
+                  ],
+                );
+              },
+              listener: (context, state) {
+                if (state.error != null) {}
+              },
             ),
-          ],
-          onTap: (int tappedIndex) {
-            _onItemTapped(tappedIndex);
-          }),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 45),
-        child: <Widget>[
-          BlocConsumer<MealsCubit, MealsState>(
-            bloc: _mealsCubit,
-            builder: (context, state) {
-              return Column(
-                children: [
-                  state.status.when(
-                      loading: () => const HomeScreenLoading(),
-                      error: (error) => const HomeScreenError(),
-                      success: () => const HomeScreenSuccess()),
-                ],
-              );
-            },
-            listener: (context, state) {
-              if (state.error != null) {}
-            },
-          ),
-          Text('Холодильник'),
-          Text('Избранное'),
-          Text('Профиль'),
-        ][_selectedIndex],
+            Text('Холодильник'),
+            Text('Избранное'),
+            Text('Профиль'),
+          ][_selectedIndex],
+        ),
       ),
     );
   }
