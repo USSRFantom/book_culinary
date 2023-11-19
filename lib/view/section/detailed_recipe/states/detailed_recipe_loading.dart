@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-class HomeScreenLoading extends StatelessWidget {
-  const HomeScreenLoading({super.key});
+class DetailedRecipeScreenLoading extends StatelessWidget {
+  const DetailedRecipeScreenLoading({super.key});
 
   @override
   Widget build(BuildContext context) {

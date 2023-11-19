@@ -15,8 +15,6 @@ AppHttpClient get httpClient => getIt<AppHttpClient>();
 
 class AppHttpClient {
   late Dio _dio;
-  String? _traceId;
-
   Dio get dio => _dio;
 
   AppHttpClient() {
@@ -57,9 +55,6 @@ class AppHttpClient {
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
       );
-      print(
-          '12312312312312312312312123123123123123123123121231231231231231231231212312312312312312312312');
-      print(response);
       return handleListResponse(response, mapper);
     } on Exception catch (e) {
       return handleException(e);

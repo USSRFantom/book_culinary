@@ -14,7 +14,6 @@ abstract class FetchData {
   }) async {
     final bool isConnected =
         kIsWeb ? true : await InternetConnectionChecker().hasConnection;
-
     if (isConnected) {
       final remoteResponse = await getFromRemote();
       await remoteResponse.when(
@@ -180,6 +179,7 @@ abstract class FetchData {
       if (needToCloseBox) {
         await box.close();
       }
+      print(value);
       return DataResponse.data(value);
     } catch (e, st) {
       return DataResponse.error(

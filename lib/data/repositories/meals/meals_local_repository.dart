@@ -8,14 +8,14 @@ class MealsLocalRepository {
   Future<void> saveMeals(List<Meals> meals) async {
     var box = await Hive.openBox<Meals>(HiveBoxes.meals);
     await box.putAll(
-      Map.fromEntries(meals.map((meals) => MapEntry(meals.idMeal, meals))),
-    );
-    // await box.close();
+        Map.fromEntries(meals.map((meal) => MapEntry(meal.strMeal, meal))));
+    await box.close();
   }
 
   Future<DataResponse<List<Meals>>> getMeals() async {
-    return await FetchData.getListFromBox(
+    return await FetchData.getListFromBox<Meals>(
       boxName: HiveBoxes.meals,
+      sortFunc: (Meals a, Meals b) => a.idMeal.compareTo(b.idMeal),
     );
   }
 }
