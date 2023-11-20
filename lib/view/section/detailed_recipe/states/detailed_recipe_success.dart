@@ -1,6 +1,5 @@
 import 'package:book_culinary/domain/models/meal.dart';
 import 'package:book_culinary/helpers/constants/constant_colors.dart';
-import 'package:book_culinary/helpers/constants/empty_data_widget.dart';
 import 'package:book_culinary/view/section/detailed_recipe/cubit/detailed_recipe_cubit.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +31,7 @@ class _DetailedRecipeScreenSuccessState
   ];
   List<String> comment = [];
   final fieldText = TextEditingController();
+
   void clearText() {
     fieldText.clear();
   }
@@ -69,165 +69,166 @@ class _DetailedRecipeScreenSuccessState
           }
           return false;
         },
-        child: meal.strMeal.isEmpty
-            ? const EmptyDataWidget(
-                text: 'Ошибка базы данных! '
-                    'Потяните экран вниз для повторного получения данных',
-              )
-            : SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 17, right: 17, top: 27),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            meal.strMeal,
-                            style: const TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold),
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: Image.asset('assets/svg/like.png'),
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 16,
-                            height: 16,
-                            child: Image.asset(
-                              'assets/svg/clock.png',
-                              color: Colors.black,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 11,
-                          ),
-                          Text(
-                            '45 минут',
-                            style: TextStyle(color: greenColor, fontSize: 16),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        height: 220,
-                        width: 396,
-                        child: Image.network(
-                          meal.strMealThumb,
-                          fit: BoxFit.fitWidth,
-                          errorBuilder: (BuildContext context, Object exception,
-                              StackTrace? stackTrace) {
-                            return Image.asset('assets/svg/internet.png');
-                          },
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 22,
-                      ),
-                      Text(
-                        'Ингридиенты',
-                        style: TextStyle(
-                            color: greenColor2,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(
-                        height: 18,
-                      ),
-                      Container(
-                        padding: const EdgeInsets.only(
-                            left: 8, right: 8, top: 15, bottom: 18),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(
-                            color: greyColors,
-                            width: 3,
-                          ),
-                        ),
-                        child: Column(
-                            children: getIngredients(ingredients, measure)),
-                      ),
-                      const SizedBox(
-                        height: 22,
-                      ),
-                      Text(
-                        'Шаги приготовления',
-                        style: TextStyle(
-                            color: greenColor2,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(
-                        height: 18,
-                      ),
-                      Column(
-                        children: getCookingSteps(),
-                      ),
-                      const SizedBox(
-                        height: 23,
-                      ),
-                      Center(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
-                              color: greenColor2),
-                          width: 232,
-                          height: 48,
-                          child: const Center(
-                              child: Text(
-                            'Начать готовить',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
-                          )),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 32,
-                      ),
-                      comment.isNotEmpty
-                          ? Column(
-                              children: getComment(comment),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 17, right: 17, top: 27),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      meal.strMeal!,
+                      style: const TextStyle(
+                          fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        meal.like = true;
+                        mealCubit.saveLikeMeal(meal);
+                      },
+                      icon: meal.like == true
+                          ? Image.asset(
+                              'assets/svg/like.png',
+                              color: Colors.red,
                             )
-                          : const SizedBox(
-                              height: 32,
-                            ),
-                      TextField(
-                        controller: fieldText,
-                        decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: greenColor2, width: 2.0),
-                            ),
-                            suffixIcon: Image.asset('assets/svg/icon_img.png'),
-                            labelText: 'оставить комментарий',
-                            labelStyle: TextStyle(color: grey2Colors),
-                            suffixStyle: const TextStyle(color: Colors.green)),
-                        onSubmitted: (text) {
-                          setState(() {
-                            clearText();
-                            comment.add(text);
-                          });
-                        },
+                          : Image.asset('assets/svg/like.png'),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: Image.asset(
+                        'assets/svg/clock.png',
+                        color: Colors.black,
                       ),
-                      const SizedBox(
-                        height: 32,
-                      ),
-                    ],
+                    ),
+                    const SizedBox(
+                      width: 11,
+                    ),
+                    Text(
+                      '45 минут',
+                      style: TextStyle(color: greenColor, fontSize: 16),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  height: 220,
+                  width: 396,
+                  child: Image.network(
+                    meal.strMealThumb!,
+                    fit: BoxFit.fitWidth,
+                    errorBuilder: (BuildContext context, Object exception,
+                        StackTrace? stackTrace) {
+                      return Image.asset('assets/svg/internet.png');
+                    },
                   ),
                 ),
-              ),
+                const SizedBox(
+                  height: 22,
+                ),
+                Text(
+                  'Ингридиенты',
+                  style: TextStyle(
+                      color: greenColor2,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 18,
+                ),
+                Container(
+                  padding: const EdgeInsets.only(
+                      left: 8, right: 8, top: 15, bottom: 18),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(
+                      color: greyColors,
+                      width: 3,
+                    ),
+                  ),
+                  child: Column(children: getIngredients(ingredients, measure)),
+                ),
+                const SizedBox(
+                  height: 22,
+                ),
+                Text(
+                  'Шаги приготовления',
+                  style: TextStyle(
+                      color: greenColor2,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 18,
+                ),
+                Column(
+                  children: getCookingSteps(),
+                ),
+                const SizedBox(
+                  height: 23,
+                ),
+                Center(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25),
+                        color: greenColor2),
+                    width: 232,
+                    height: 48,
+                    child: const Center(
+                        child: Text(
+                      'Начать готовить',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    )),
+                  ),
+                ),
+                const SizedBox(
+                  height: 32,
+                ),
+                comment.isNotEmpty
+                    ? Column(
+                        children: getComment(comment),
+                      )
+                    : const SizedBox(
+                        height: 32,
+                      ),
+                TextField(
+                  controller: fieldText,
+                  decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: greenColor2, width: 2.0),
+                      ),
+                      suffixIcon: Image.asset('assets/svg/icon_img.png'),
+                      labelText: 'оставить комментарий',
+                      labelStyle: TextStyle(color: grey2Colors),
+                      suffixStyle: const TextStyle(color: Colors.green)),
+                  onSubmitted: (text) {
+                    setState(() {
+                      clearText();
+                      comment.add(text);
+                    });
+                  },
+                ),
+                const SizedBox(
+                  height: 32,
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

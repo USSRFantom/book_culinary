@@ -15,7 +15,12 @@ class MealLocalRepository {
   Future<DataResponse<List<Meal>>> getMeal() async {
     return await FetchData.getListFromBox<Meal>(
       boxName: HiveBoxes.meals,
-      sortFunc: (Meal a, Meal b) => a.idMeal.compareTo(b.idMeal),
+      sortFunc: (Meal a, Meal b) => a.idMeal!.compareTo(b.idMeal!),
     );
+  }
+
+  Future<void> saveLikeMeal(Meal meal) async {
+    var box = await Hive.openBox<Meal>(HiveBoxes.like);
+    await box.put(meal.idMeal, meal);
   }
 }
