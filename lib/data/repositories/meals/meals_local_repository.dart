@@ -1,5 +1,6 @@
 import 'package:book_culinary/data/repositories/base/base_repository.dart';
 import 'package:book_culinary/data/repositories/base/data_response.dart';
+import 'package:book_culinary/domain/models/meal.dart';
 import 'package:book_culinary/domain/models/meals.dart';
 import 'package:book_culinary/helpers/constants/hive_boxes.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -16,6 +17,12 @@ class MealsLocalRepository {
     return await FetchData.getListFromBox<Meals>(
       boxName: HiveBoxes.meals,
       sortFunc: (Meals a, Meals b) => a.idMeal.compareTo(b.idMeal),
+    );
+  }
+
+  Future<DataResponse<List<Meal>>> getFavoritesMeals() async {
+    return await FetchData.getListFromBox<Meal>(
+      boxName: HiveBoxes.like,
     );
   }
 }

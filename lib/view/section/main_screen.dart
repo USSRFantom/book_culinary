@@ -1,4 +1,6 @@
 import 'package:book_culinary/helpers/constants/constant_colors.dart';
+import 'package:book_culinary/view/section/favorites/cubit/favorites_cubit.dart';
+import 'package:book_culinary/view/section/favorites/favorites_screen.dart';
 import 'package:book_culinary/view/section/home_screen/cubit/meals_cubit.dart';
 import 'package:book_culinary/view/section/home_screen/cubit/meals_state.dart';
 import 'package:book_culinary/view/section/home_screen/states/home_screen_error.dart';
@@ -16,6 +18,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   late final MealsCubit _mealsCubit;
+  late final FavoritesCubit _favoritesCubit;
 
   @override
   void initState() {
@@ -94,7 +97,7 @@ class _MainScreenState extends State<MainScreen> {
               },
             ),
             Text('Холодильник'),
-            Text('Избранное'),
+            const FavoritesScreen(),
             Text('Профиль'),
           ][_selectedIndex],
         ),
