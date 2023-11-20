@@ -5,6 +5,7 @@ import 'package:book_culinary/view/section/detailed_recipe/cubit/detailed_recipe
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class DetailedRecipeScreenSuccess extends StatefulWidget {
@@ -20,6 +21,20 @@ class _DetailedRecipeScreenSuccessState
   late RefreshController _refreshController;
 
   late final MealCubit mealCubit;
+
+  List<bool?> checkCookingSteps = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ];
+  List<String> comment = [];
+  final fieldText = TextEditingController();
+  void clearText() {
+    fieldText.clear();
+  }
 
   @override
   void initState() {
@@ -84,7 +99,14 @@ class _DetailedRecipeScreenSuccessState
                       ),
                       Row(
                         children: [
-                          const Icon(Icons.lock_clock),
+                          SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: Image.asset(
+                              'assets/svg/clock.png',
+                              color: Colors.black,
+                            ),
+                          ),
                           const SizedBox(
                             width: 11,
                           ),
@@ -152,65 +174,7 @@ class _DetailedRecipeScreenSuccessState
                         height: 18,
                       ),
                       Column(
-                        children: [
-                          Container(
-                            height: 120,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: backgroundColor),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 24),
-                                  child: Text(
-                                    '1',
-                                    style: TextStyle(
-                                        color: grey2Colors,
-                                        fontSize: 40,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 29,
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    'Кладем сыр, помидоры и базилик на основу, ставим в духовку еще на 10 минут. Пицца готова, когда сыр расплавится.',
-                                    style: TextStyle(
-                                        fontSize: 12, color: greyColors),
-                                    maxLines: 6,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 20),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Transform.scale(
-                                        scale: 1.5,
-                                        child: Checkbox(
-                                          value: false,
-                                          onChanged: (bool? value) {},
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 14,
-                                      ),
-                                      Text(
-                                        '01:00',
-                                        style: TextStyle(
-                                            color: greyColors, fontSize: 13),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
+                        children: getCookingSteps(),
                       ),
                       const SizedBox(
                         height: 23,
@@ -228,7 +192,38 @@ class _DetailedRecipeScreenSuccessState
                             style: TextStyle(color: Colors.white, fontSize: 16),
                           )),
                         ),
-                      )
+                      ),
+                      const SizedBox(
+                        height: 32,
+                      ),
+                      comment.isNotEmpty
+                          ? Column(
+                              children: getComment(comment),
+                            )
+                          : const SizedBox(
+                              height: 32,
+                            ),
+                      TextField(
+                        controller: fieldText,
+                        decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: greenColor2, width: 2.0),
+                            ),
+                            suffixIcon: Image.asset('assets/svg/icon_img.png'),
+                            labelText: 'оставить комментарий',
+                            labelStyle: TextStyle(color: grey2Colors),
+                            suffixStyle: const TextStyle(color: Colors.green)),
+                        onSubmitted: (text) {
+                          setState(() {
+                            clearText();
+                            comment.add(text);
+                          });
+                        },
+                      ),
+                      const SizedBox(
+                        height: 32,
+                      ),
                     ],
                   ),
                 ),
@@ -269,5 +264,142 @@ class _DetailedRecipeScreenSuccessState
     }
 
     return result;
+  }
+
+  List<Widget> getCookingSteps() {
+    List<Widget> result = [];
+    for (int index = 0; index < checkCookingSteps.length; index++) {
+      result.add(
+        Column(
+          children: [
+            Container(
+              height: 120,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: checkCookingSteps[index] == true
+                      ? greenColor3
+                      : backgroundColor),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 24),
+                    child: Text(
+                      (index + 1).toString(),
+                      style: TextStyle(
+                          color: checkCookingSteps[index] == true
+                              ? greenColor
+                              : grey2Colors,
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 29,
+                  ),
+                  Expanded(
+                    child: Text(
+                      'Кладем сыр, помидоры и базилик на основу, ставим в духовку еще на 10 минут. Пицца готова, когда сыр расплавится.',
+                      style: TextStyle(fontSize: 12, color: greyColors),
+                      maxLines: 6,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Transform.scale(
+                          scale: 1.5,
+                          child: Checkbox(
+                            activeColor: greenColor2,
+                            value: checkCookingSteps[index],
+                            onChanged: (bool? valueResult) {
+                              setState(() {
+                                checkCookingSteps[index] = valueResult;
+                              });
+                            },
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 14,
+                        ),
+                        Text(
+                          '01:00',
+                          style: TextStyle(
+                              color: checkCookingSteps[index] == true
+                                  ? greenColor2
+                                  : greyColors,
+                              fontSize: 13),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+          ],
+        ),
+      );
+    }
+
+    return result;
+  }
+
+  List<Widget> getComment(List<String> comment) {
+    List<Widget> result = [];
+
+    for (int index = 0; index < comment.length; index++) {
+      result.add(
+        Column(
+          children: [
+            Row(
+              children: [
+                Image.asset('assets/svg/ellipse.png'),
+                const SizedBox(
+                  width: 18,
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "anna_obraztsova",
+                            style: TextStyle(color: greenColor, fontSize: 16),
+                          ),
+                          Text(
+                            getFormatDate(),
+                            style: TextStyle(color: grey2Colors),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Text(comment[index]),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 32,
+            )
+          ],
+        ),
+      );
+    }
+
+    return result;
+  }
+
+  String getFormatDate() {
+    var outputFormat = DateFormat('dd.MM.yyyy');
+    return outputFormat.format(DateTime.now()).toString();
   }
 }

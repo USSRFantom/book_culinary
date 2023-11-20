@@ -6,3 +6,4 @@ Color grey2Colors = const Color(0xFFC2C2C2);
 Color whiteColor = const Color(0xFFFFFFFF);
 Color greenColor = const Color(0xFF2ECC71);
 Color greenColor2 = const Color(0xFF165932);
+Color greenColor3 = const Color(0x252ECC71);
