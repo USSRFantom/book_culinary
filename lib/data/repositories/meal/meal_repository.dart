@@ -19,4 +19,8 @@ class MealRepository {
       saveToLocalStorage: (value) => _localRepository.saveMeal(value),
     );
   }
+
+  Future<void> saveLikeMeal(Meal meal) async {
+    _localRepository.saveLikeMeal(meal);
+  }
 }

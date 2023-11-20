@@ -18,4 +18,16 @@ class MealLocalRepository {
       sortFunc: (Meal a, Meal b) => a.idMeal.compareTo(b.idMeal),
     );
   }
+
+  Future<void> saveLikeMeal(Meal meal) async {
+    var box = await Hive.openBox<Meal>(HiveBoxes.like);
+    box.put(meal.strMeal, meal.copy);
+  }
+
+  Future<DataResponse<List<Meal>>> getLikeMeal() async {
+    return await FetchData.getListFromBox<Meal>(
+      boxName: HiveBoxes.like,
+      sortFunc: (Meal a, Meal b) => a.idMeal.compareTo(b.idMeal),
+    );
+  }
 }

@@ -9,6 +9,11 @@ part 'meal.g.dart';
 class Meal extends HiveObject with _$Meal {
   Meal._();
 
+  Meal get copy {
+    final objectInstance = Meal();
+    return objectInstance;
+  }
+
   factory Meal({
     @JsonKey(name: 'idMeal') @HiveField(0) @Default('') String idMeal,
     @JsonKey(name: 'strMeal') @HiveField(1) @Default('') String strMeal,
@@ -201,6 +206,7 @@ class Meal extends HiveObject with _$Meal {
     @HiveField(52)
     @Default('')
         String dateModified,
+    @HiveField(53) @Default(false) bool like,
   }) = _Meal;
 
   factory Meal.fromJson(Map<String, dynamic> json) => _$MealFromJson(json);

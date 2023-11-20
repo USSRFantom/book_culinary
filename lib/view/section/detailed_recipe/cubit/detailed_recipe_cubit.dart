@@ -42,6 +42,10 @@ class MealCubit extends Cubit<MealState> {
     );
   }
 
+  saveLikeMeal(Meal meal) async {
+    await _mealRepository.saveLikeMeal(meal);
+  }
+
   List<String> getIngredients(Meal meal) {
     List<String> ingredient = [];
 

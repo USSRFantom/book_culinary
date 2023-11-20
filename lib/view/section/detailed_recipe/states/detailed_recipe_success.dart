@@ -32,6 +32,7 @@ class _DetailedRecipeScreenSuccessState
   ];
   List<String> comment = [];
   final fieldText = TextEditingController();
+
   void clearText() {
     fieldText.clear();
   }
@@ -89,8 +90,16 @@ class _DetailedRecipeScreenSuccessState
                                 fontSize: 24, fontWeight: FontWeight.bold),
                           ),
                           IconButton(
-                            onPressed: () {},
-                            icon: Image.asset('assets/svg/like.png'),
+                            onPressed: () {
+                              mealCubit.saveLikeMeal(meal);
+                              print('сейвим');
+                            },
+                            icon: meal.like == true
+                                ? Image.asset(
+                                    'assets/svg/like.png',
+                                    color: Colors.red,
+                                  )
+                                : Image.asset('assets/svg/like.png'),
                           )
                         ],
                       ),
