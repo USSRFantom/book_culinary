@@ -1,3 +1,4 @@
+import 'package:book_culinary/helpers/constants/app_string.dart';
 import 'package:book_culinary/helpers/constants/constant_colors.dart';
 import 'package:book_culinary/view/section/favorites/cubit/favorites_cubit.dart';
 import 'package:book_culinary/view/section/favorites/favorites_screen.dart';
@@ -53,25 +54,25 @@ class _MainScreenState extends State<MainScreen> {
                 icon: ImageIcon(
                   AssetImage('assets/svg/pizza2.png'),
                 ),
-                label: 'Рецепты',
+                label: AppStrings.recipes,
               ),
               BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage('assets/svg/fridge.png'),
                 ),
-                label: 'Холодильник',
+                label: AppStrings.fridge,
               ),
               BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage('assets/svg/favorites.png'),
                 ),
-                label: 'Избранное',
+                label: AppStrings.favorites,
               ),
               BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage('assets/svg/profile.png'),
                 ),
-                label: 'Профиль',
+                label: AppStrings.profile,
               ),
             ],
             onTap: (int tappedIndex) {
@@ -96,9 +97,9 @@ class _MainScreenState extends State<MainScreen> {
                 if (state.error != null) {}
               },
             ),
-            Text('Холодильник'),
+            const Text(AppStrings.fridge),
             const FavoritesScreen(),
-            Text('Профиль'),
+            const Text(AppStrings.profile),
           ][_selectedIndex],
         ),
       ),

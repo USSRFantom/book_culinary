@@ -22,9 +22,7 @@ class FavoritesScreenError extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             InkWell(
-              onTap: () {
-                context.read<FavoritesCubit>().fetchAllFavoritesMeals();
-              },
+              onTap: () => context.read<FavoritesCubit>().fetchAllFavoritesMeals(),
               child: const Text(
                 "Повторить",
               ),

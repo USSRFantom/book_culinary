@@ -14,8 +14,7 @@ class FavoritesCubit extends Cubit<FavoritesState> {
   final List<Meal> _allMeals = [];
 
   Future<void> fetchAllFavoritesMeals() async {
-    emit(state.copyWith(error: null));
-    emit(state.copyWith(status: const StateStatus.loading()));
+    emit(state.copyWith(error: null, status: const StateStatus.loading()));
     final dataResponse = await _mealsRepository.getFavoritesMeals();
     dataResponse.when(
       data: (data) {

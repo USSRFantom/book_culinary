@@ -23,9 +23,7 @@ class DetailedRecipeScreenError extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             InkWell(
-              onTap: () {
-                context.read<MealCubit>().fetchAllMeal(nameMeal);
-              },
+              onTap: () => context.read<MealCubit>().fetchAllMeal(nameMeal),
               child: const Text(
                 "Повторить",
               ),

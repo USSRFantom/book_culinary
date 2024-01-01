@@ -32,9 +32,8 @@ class _DetailedRecipeScreenSuccessState
   List<String> comment = [];
   final fieldText = TextEditingController();
 
-  void clearText() {
-    fieldText.clear();
-  }
+  void clearText() => fieldText.clear();
+
 
   @override
   void initState() {
@@ -126,8 +125,6 @@ class _DetailedRecipeScreenSuccessState
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  height: 220,
-                  width: 396,
                   child: Image.network(
                     meal.strMealThumb!,
                     fit: BoxFit.fitWidth,
