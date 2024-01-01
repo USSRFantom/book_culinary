@@ -18,7 +18,6 @@ class MealRemoteRepository {
     return await httpClient.getList<Meal>(
       ApiRoutes.getMeals,
       Meal.fromJson,
-      queryParameters: queryParameters,
     );
   }
 }

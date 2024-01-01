@@ -15,6 +15,7 @@ AppHttpClient get httpClient => getIt<AppHttpClient>();
 
 class AppHttpClient {
   late Dio _dio;
+
   Dio get dio => _dio;
 
   AppHttpClient() {
@@ -38,22 +39,10 @@ class AppHttpClient {
     );
   }
 
-  Future<DataResponse<List<T>>> getList<T>(
-    String path,
-    T Function(Map<String, dynamic>) mapper, {
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
-    ProgressCallback? onSendProgress,
-    ProgressCallback? onReceiveProgress,
-  }) async {
+  Future<DataResponse<List<T>>> getList<T>(String path, T Function(Map<String, dynamic>) mapper) async {
     try {
       final response = await _dio.get(
         path,
-        queryParameters: queryParameters,
-        options: options,
-        cancelToken: cancelToken,
-        onReceiveProgress: onReceiveProgress,
       );
       return handleListResponse(response, mapper);
     } on Exception catch (e) {

@@ -1,3 +1,3 @@
 class ApiRoutes {
-  static const getMeals = 'https://www.themealdb.com/api/json/v1/1/search.php?';
+  static const getMeals = 'https://foodapi.dzolotov.tech/recipe';
 }

@@ -86,7 +86,6 @@ class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
                 .whenComplete(_refreshController.loadComplete);
           },
           onRefresh: () {
-            _cubit.setPageAllToStart();
             _cubit
                 .fetchAllMeals()
                 .whenComplete(_refreshController.refreshCompleted);
@@ -111,12 +110,12 @@ class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => DetailedRecipeScreen(
-                                      meals[index].strMeal)),
+                                      meals[index].id.toString())),
                             );
                           },
                           child: CardRecipe(
-                            img: meals[index].strMealThumb!,
-                            title: meals[index].strMeal!,
+                            img: meals[index].photo,
+                            title: meals[index].name,
                             time: 0,
                           ),
                         ),

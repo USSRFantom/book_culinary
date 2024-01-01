@@ -7,28 +7,19 @@ part 'meals.g.dart';
 @HiveType(typeId: 1)
 class Meals extends HiveObject {
   @HiveField(0)
-  final String idMeal;
+  final int id;
   @HiveField(1)
-  final String strMeal;
+  final int duration;
   @HiveField(2)
-  final String? strDrinkAlternate;
+  final String photo;
   @HiveField(3)
-  final String strCategory;
-  @HiveField(4)
-  final String strArea;
-  @HiveField(5)
-  final String strInstructions;
-  @HiveField(6)
-  final String strMealThumb;
+  final String name;
 
   Meals(
-    this.idMeal,
-    this.strMeal,
-    this.strDrinkAlternate,
-    this.strCategory,
-    this.strArea,
-    this.strInstructions,
-    this.strMealThumb,
+    this.id,
+    this.duration,
+    this.photo,
+    this.name,
   );
 
   factory Meals.fromJson(Map<String, dynamic> json) => _$MealsFromJson(json);
