@@ -67,12 +67,12 @@ class _FavoritesScreenSuccessState extends State<FavoritesScreenSuccess> {
                     children: [
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => DetailedRecipeScreen(
-                                    meals[index].strMeal!)),
-                          );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) => DetailedRecipeScreen(
+                          //           meals[index].)),
+                          // );
                         },
                         child: CardRecipe(
                           img: meals[index].strMealThumb!,

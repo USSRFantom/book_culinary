@@ -16,9 +16,13 @@ class AppStrings {
   static const internetConnectionErrorTitle = 'Отсутствует подключение к интернету';
   static const internetConnectionErrorDescription = 'Проверьте подключение и попробуйте повторить попытку еще раз';
   static const recipes = 'Рецепты';
+  static const recipe = 'Рецепт';
   static const fridge = 'Холодильник';
   static const favorites = 'Избранное';
   static const profile = 'Профиль';
+  static const repeat = 'Повторить';
+
+
 
 
 }

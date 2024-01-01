@@ -10,7 +10,7 @@ abstract class MealState with _$MealState {
   const factory MealState({
     @Default(StateStatus.success()) StateStatus status,
     @Default(false) bool allPagesLoaded,
-    @Default([]) List<Meal> meals,
+    @Default(null) Meal? meals,
     AppError? error,
   }) = _MealState;
 

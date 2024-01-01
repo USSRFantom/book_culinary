@@ -4,20 +4,11 @@ import 'package:book_culinary/data/repositories/base/data_response.dart';
 import 'package:book_culinary/domain/models/meal.dart';
 
 class MealRemoteRepository {
-  Future<DataResponse<List<Meal>>> getMeal(
-    Map<String, dynamic>? params,
+  Future<DataResponse<Meal>> getMeal(
+    int idMeal,
   ) async {
-    Map<String, dynamic> queryParameters = {};
-    if (params != null) {
-      for (var entry in params.entries) {
-        if (entry.value != null) {
-          queryParameters[entry.key] = entry.value;
-        }
-      }
-    }
-    return await httpClient.getList<Meal>(
-      ApiRoutes.getMeals,
-      Meal.fromJson,
+    return await httpClient.get<Meal>(
+      "${ApiRoutes.getMeal}$idMeal",
     );
   }
 }

@@ -49,4 +49,20 @@ class AppHttpClient {
       return handleException(e);
     }
   }
+
+  Future<DataResponse<T>> get<T>(
+    String path, {
+    T Function(Map<String, dynamic>)? mapper,
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    try {
+      final response = await _dio.get(
+        path,
+        queryParameters: queryParameters,
+      );
+      return handleResponse(response, mapper);
+    } on Exception catch (e) {
+      return handleException(e);
+    }
+  }
 }

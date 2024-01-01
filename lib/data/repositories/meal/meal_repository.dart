@@ -10,12 +10,12 @@ class MealRepository {
 
   MealRepository(this._remoteRepository, this._localRepository);
 
-  Future<DataResponse<List<Meal>>> fetchMeal({
-    required Map<String, dynamic> params,
+  Future<DataResponse<Meal>> fetchMeal({
+    required int idMeal
   }) async {
-    return FetchData.fromRemoteWithSaveElseLocal<List<Meal>>(
-      getFromRemote: () => _remoteRepository.getMeal(params),
-      getFromLocalStorage: () => _localRepository.getMeal(),
+    return FetchData.fromRemoteWithSaveElseLocal<Meal>(
+      getFromRemote: () => _remoteRepository.getMeal(idMeal),
+      getFromLocalStorage: () => _localRepository.getMeal(idMeal),
       saveToLocalStorage: (value) => _localRepository.saveMeal(value),
     );
   }

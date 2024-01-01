@@ -36,11 +36,13 @@ class _CardRecipeState extends State<CardRecipe> {
                 ),
               ),
               child: Image.network(
+
                 widget.img,
                 errorBuilder: (BuildContext context, Object exception,
                     StackTrace? stackTrace) {
                   return Image.asset('assets/svg/internet.png');
                 },
+                fit: BoxFit.fill,
               ),
             ),
           ),
@@ -71,7 +73,7 @@ class _CardRecipeState extends State<CardRecipe> {
                         ),
                         const SizedBox(width: 11),
                         Text(
-                          ' 120 мин',
+                          '${widget.time} мин',
                           style: TextStyle(color: greenColor),
                         ),
                       ],

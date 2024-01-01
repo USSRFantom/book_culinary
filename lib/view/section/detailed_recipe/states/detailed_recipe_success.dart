@@ -50,9 +50,9 @@ class _DetailedRecipeScreenSuccessState
 
   @override
   Widget build(BuildContext context) {
-    Meal meal = context.watch<MealCubit>().state.meals.first;
-    List<String> ingredients = mealCubit.getIngredients(meal);
-    List<String> measure = mealCubit.getMeasure(meal);
+    Meal? meal = context.watch<MealCubit>().state.meals;
+    // List<String> ingredients = mealCubit.getIngredients(meal);
+    // List<String> measure = mealCubit.getMeasure(meal);
     return Expanded(
       child: NotificationListener<ScrollNotification>(
         onNotification: (ScrollNotification scrollInfo) {
@@ -77,23 +77,23 @@ class _DetailedRecipeScreenSuccessState
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      meal.strMeal!,
-                      style: const TextStyle(
-                          fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        meal.like = true;
-                        mealCubit.saveLikeMeal(meal);
-                      },
-                      icon: meal.like == true
-                          ? Image.asset(
-                              'assets/svg/like.png',
-                              color: Colors.red,
-                            )
-                          : Image.asset('assets/svg/like.png'),
-                    )
+                    // Text(
+                    //   meal?.strMeal,
+                    //   style: const TextStyle(
+                    //       fontSize: 24, fontWeight: FontWeight.bold),
+                    // ),
+                    // IconButton(
+                    //   onPressed: () {
+                    //     // meal != null? meal.like = true;
+                    //     // //mealCubit.saveLikeMeal(meal);
+                    //   },
+                    //   icon: meal.like == true
+                    //       ? Image.asset(
+                    //           'assets/svg/like.png',
+                    //           color: Colors.red,
+                    //         )
+                    //       : Image.asset('assets/svg/like.png'),
+                    // )
                   ],
                 ),
                 const SizedBox(
@@ -125,14 +125,14 @@ class _DetailedRecipeScreenSuccessState
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  child: Image.network(
-                    meal.strMealThumb!,
-                    fit: BoxFit.fitWidth,
-                    errorBuilder: (BuildContext context, Object exception,
-                        StackTrace? stackTrace) {
-                      return Image.asset('assets/svg/internet.png');
-                    },
-                  ),
+                  // child: Image.network(
+                  //   meal.strMealThumb!,
+                  //   fit: BoxFit.fitWidth,
+                  //   errorBuilder: (BuildContext context, Object exception,
+                  //       StackTrace? stackTrace) {
+                  //     return Image.asset('assets/svg/internet.png');
+                  //   },
+                  // ),
                 ),
                 const SizedBox(
                   height: 22,
@@ -147,18 +147,18 @@ class _DetailedRecipeScreenSuccessState
                 const SizedBox(
                   height: 18,
                 ),
-                Container(
-                  padding: const EdgeInsets.only(
-                      left: 8, right: 8, top: 15, bottom: 18),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(
-                      color: greyColors,
-                      width: 3,
-                    ),
-                  ),
-                  child: Column(children: getIngredients(ingredients, measure)),
-                ),
+                // Container(
+                //   padding: const EdgeInsets.only(
+                //       left: 8, right: 8, top: 15, bottom: 18),
+                //   decoration: BoxDecoration(
+                //     borderRadius: BorderRadius.circular(5),
+                //     border: Border.all(
+                //       color: greyColors,
+                //       width: 3,
+                //     ),
+                //   ),
+                //   child: Column(children: getIngredients(ingredients, measure)),
+                // ),
                 const SizedBox(
                   height: 22,
                 ),

@@ -110,13 +110,13 @@ class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => DetailedRecipeScreen(
-                                      meals[index].id.toString())),
+                                      meals[index].id)),
                             );
                           },
                           child: CardRecipe(
                             img: meals[index].photo,
                             title: meals[index].name,
-                            time: 0,
+                            time: meals[index].duration,
                           ),
                         ),
                         const SizedBox(height: 24)

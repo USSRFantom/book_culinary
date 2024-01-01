@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DetailedRecipeScreenError extends StatelessWidget {
-  final String nameMeal;
-  const DetailedRecipeScreenError({super.key, required this.nameMeal});
+  final int idMeal;
+  const DetailedRecipeScreenError({super.key, required this.idMeal});
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +23,9 @@ class DetailedRecipeScreenError extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             InkWell(
-              onTap: () => context.read<MealCubit>().fetchAllMeal(nameMeal),
+              onTap: () => context.read<MealCubit>().fetchAllMeal(idMeal),
               child: const Text(
-                "Повторить",
+                AppStrings.repeat,
               ),
             )
           ],
