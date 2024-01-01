@@ -2,13 +2,15 @@ import 'package:book_culinary/core/http/api_routes.dart';
 import 'package:book_culinary/core/http/http_client.dart';
 import 'package:book_culinary/data/repositories/base/data_response.dart';
 import 'package:book_culinary/domain/models/meal.dart';
+import 'package:book_culinary/domain/models/meals.dart';
 
 class MealRemoteRepository {
-  Future<DataResponse<Meal>> getMeal(
+  Future<DataResponse<Meals>> getMeal(
     int idMeal,
   ) async {
-    return await httpClient.get<Meal>(
+    return await httpClient.get<Meals>(
       "${ApiRoutes.getMeal}$idMeal",
+      mapper: Meals.fromJson,
     );
   }
 }

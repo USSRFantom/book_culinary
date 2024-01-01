@@ -9,15 +9,12 @@ class MealCubit extends Cubit<MealState> {
 
   MealCubit(
     this._mealRepository,
-  ) : super(MealState());
+  ) : super(const MealState());
 
   late Meal meal;
 
   Future<void> fetchAllMeal(int idMeal) async {
-    emit(state.copyWith(error: null));
-    List<Meal> _allMeals = [];
-    emit(state.copyWith(status: const StateStatus.loading()));
-    _allMeals.clear();
+    emit(state.copyWith(error: null, status: const StateStatus.loading()));
     final dataResponse = await _mealRepository.fetchMeal(idMeal: idMeal);
     dataResponse.when(
       data: (data) {
@@ -29,6 +26,8 @@ class MealCubit extends Cubit<MealState> {
         );
       },
       error: (error) {
+        print('12312312');
+        print(error);
         emit(
           state.copyWith(status: StateStatus.error(error), error: error),
         );

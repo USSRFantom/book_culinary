@@ -58,7 +58,8 @@ DataResponse<T> handleResponse<T>(
 
   try {
     if (typeOf<void>() == T || mapper == null) {
-      if (responseData is Map && responseData['success'] != null && responseData['success'] == false) {
+      if (responseData is Map && responseData == null && responseData.isNotEmpty) {
+        print('8888');
         // return DataResponse.error(ServerError(responseData.toString()));
         return DataResponse.error(ApiError(responseData['message'] ?? responseData.toString()));
       } else {
@@ -87,7 +88,7 @@ DataResponse<List<T>> handleListResponse<T>(
   final responseData = response.data;
   try {
     if (mapper == null) {
-      if (responseData is Map){
+      if (responseData is Map) {
         final rawList = (responseData as List<dynamic>);
         final data = (rawList.map((item) => item as T).toList());
         return DataResponse.data(data);

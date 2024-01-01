@@ -1,4 +1,5 @@
 import 'package:book_culinary/domain/models/meal.dart';
+import 'package:book_culinary/domain/models/meals.dart';
 import 'package:book_culinary/helpers/constants/constant_colors.dart';
 import 'package:book_culinary/view/section/detailed_recipe/cubit/detailed_recipe_cubit.dart';
 import 'package:flutter/foundation.dart';
@@ -50,7 +51,7 @@ class _DetailedRecipeScreenSuccessState
 
   @override
   Widget build(BuildContext context) {
-    Meal? meal = context.watch<MealCubit>().state.meals;
+    Meals? meal = context.watch<MealCubit>().state.meals;
     // List<String> ingredients = mealCubit.getIngredients(meal);
     // List<String> measure = mealCubit.getMeasure(meal);
     return Expanded(
