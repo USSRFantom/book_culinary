@@ -14,12 +14,15 @@ class Meals extends HiveObject {
   final String photo;
   @HiveField(3)
   final String name;
+  @HiveField(4)
+  bool? like;
 
   Meals(
     this.id,
     this.duration,
     this.photo,
     this.name,
+    this.like,
   );
 
   factory Meals.fromJson(Map<String, dynamic> json) => _$MealsFromJson(json);

@@ -1,4 +1,5 @@
 import 'package:book_culinary/domain/models/meal.dart';
+import 'package:book_culinary/domain/models/meals.dart';
 import 'package:book_culinary/helpers/constants/empty_data_widget.dart';
 import 'package:book_culinary/view/section/detailed_recipe/detailed_recipe_screen.dart';
 import 'package:book_culinary/view/section/favorites/cubit/favorites_cubit.dart';
@@ -23,7 +24,6 @@ class _FavoritesScreenSuccessState extends State<FavoritesScreenSuccess> {
   void initState() {
     _refreshController = RefreshController();
     _cubit = context.read();
-    _cubit.fetchAllFavoritesMeals();
     super.initState();
   }
 
@@ -35,7 +35,7 @@ class _FavoritesScreenSuccessState extends State<FavoritesScreenSuccess> {
 
   @override
   Widget build(BuildContext context) {
-    List<Meal> meals = context.watch<FavoritesCubit>().state.meals;
+    List<Meals> meals = context.watch<FavoritesCubit>().state.meals;
 
     return Expanded(
       child: NotificationListener<ScrollNotification>(
@@ -75,9 +75,9 @@ class _FavoritesScreenSuccessState extends State<FavoritesScreenSuccess> {
                           // );
                         },
                         child: CardRecipe(
-                          img: meals[index].strMealThumb!,
-                          title: meals[index].strMeal!,
-                          time: 0,
+                          img: meals[index].photo!,
+                          title: meals[index].name!,
+                          time: meals[index].duration!,
                         ),
                       ),
                       const SizedBox(height: 24)

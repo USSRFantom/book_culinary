@@ -21,7 +21,7 @@ class MealRepository {
     );
   }
 
-  // Future<void> saveLikeMeal(Meal meal) async {
-  //   _localRepository.saveLikeMeal(meal);
-  // }
+  Future<void> saveLikeMeal(Meals meal) async {
+    _localRepository.saveLikeMeal(meal);
+  }
 }

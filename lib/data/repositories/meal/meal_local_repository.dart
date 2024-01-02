@@ -16,7 +16,8 @@ class MealLocalRepository {
   }
 
   Future<void> saveLikeMeal(Meals meal) async {
-    var box = await Hive.openBox<Meals>(HiveBoxes.like);
+
+    var box = await Hive.openBox<Meals>(HiveBoxes.meal);
     await box.put(meal.id, meal);
   }
 }

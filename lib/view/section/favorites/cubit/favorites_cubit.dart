@@ -1,5 +1,6 @@
 import 'package:book_culinary/data/repositories/meals/meals_repository.dart';
 import 'package:book_culinary/domain/models/meal.dart';
+import 'package:book_culinary/domain/models/meals.dart';
 import 'package:book_culinary/view/base/bloc/state_status.dart';
 import 'package:book_culinary/view/section/favorites/cubit/favorites_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,7 +12,7 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     this._mealsRepository,
   ) : super(const FavoritesState());
 
-  final List<Meal> _allMeals = [];
+  final List<Meals> _allMeals = [];
 
   Future<void> fetchAllFavoritesMeals() async {
     emit(state.copyWith(error: null, status: const StateStatus.loading()));

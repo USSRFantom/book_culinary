@@ -1,3 +1,4 @@
+import 'package:book_culinary/helpers/constants/app_string.dart';
 import 'package:book_culinary/helpers/constants/constant_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -73,7 +74,7 @@ class _CardRecipeState extends State<CardRecipe> {
                         ),
                         const SizedBox(width: 11),
                         Text(
-                          '${widget.time} мин',
+                          '${widget.time} ${AppStrings.min}',
                           style: TextStyle(color: greenColor),
                         ),
                       ],

@@ -1,5 +1,6 @@
 import 'package:book_culinary/domain/models/meal.dart';
 import 'package:book_culinary/domain/models/meals.dart';
+import 'package:book_culinary/helpers/constants/app_string.dart';
 import 'package:book_culinary/helpers/constants/constant_colors.dart';
 import 'package:book_culinary/view/section/detailed_recipe/cubit/detailed_recipe_cubit.dart';
 import 'package:flutter/foundation.dart';
@@ -12,12 +13,10 @@ class DetailedRecipeScreenSuccess extends StatefulWidget {
   const DetailedRecipeScreenSuccess({super.key});
 
   @override
-  State<DetailedRecipeScreenSuccess> createState() =>
-      _DetailedRecipeScreenSuccessState();
+  State<DetailedRecipeScreenSuccess> createState() => _DetailedRecipeScreenSuccessState();
 }
 
-class _DetailedRecipeScreenSuccessState
-    extends State<DetailedRecipeScreenSuccess> {
+class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSuccess> {
   late RefreshController _refreshController;
 
   late final MealCubit mealCubit;
@@ -34,7 +33,6 @@ class _DetailedRecipeScreenSuccessState
   final fieldText = TextEditingController();
 
   void clearText() => fieldText.clear();
-
 
   @override
   void initState() {
@@ -78,23 +76,24 @@ class _DetailedRecipeScreenSuccessState
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // Text(
-                    //   meal?.strMeal,
-                    //   style: const TextStyle(
-                    //       fontSize: 24, fontWeight: FontWeight.bold),
-                    // ),
-                    // IconButton(
-                    //   onPressed: () {
-                    //     // meal != null? meal.like = true;
-                    //     // //mealCubit.saveLikeMeal(meal);
-                    //   },
-                    //   icon: meal.like == true
-                    //       ? Image.asset(
-                    //           'assets/svg/like.png',
-                    //           color: Colors.red,
-                    //         )
-                    //       : Image.asset('assets/svg/like.png'),
-                    // )
+                    Text(
+                      meal!.name,
+                      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                         setState(() {
+                           meal.like = true;
+                         });
+                        mealCubit.saveLikeMeal(meal);
+                      },
+                      icon: meal.like == true
+                          ? Image.asset(
+                              'assets/svg/like.png',
+                              color: Colors.red,
+                            )
+                          : Image.asset('assets/svg/like.png'),
+                    )
                   ],
                 ),
                 const SizedBox(
@@ -114,7 +113,7 @@ class _DetailedRecipeScreenSuccessState
                       width: 11,
                     ),
                     Text(
-                      '45 минут',
+                      '${meal!.duration} ${AppStrings.min}',
                       style: TextStyle(color: greenColor, fontSize: 16),
                     ),
                   ],
@@ -126,24 +125,20 @@ class _DetailedRecipeScreenSuccessState
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  // child: Image.network(
-                  //   meal.strMealThumb!,
-                  //   fit: BoxFit.fitWidth,
-                  //   errorBuilder: (BuildContext context, Object exception,
-                  //       StackTrace? stackTrace) {
-                  //     return Image.asset('assets/svg/internet.png');
-                  //   },
-                  // ),
+                  child: Image.network(
+                    meal.photo!,
+                    fit: BoxFit.fitWidth,
+                    errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                      return Image.asset('assets/svg/internet.png');
+                    },
+                  ),
                 ),
                 const SizedBox(
                   height: 22,
                 ),
                 Text(
                   'Ингридиенты',
-                  style: TextStyle(
-                      color: greenColor2,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
+                  style: TextStyle(color: greenColor2, fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
                   height: 18,
@@ -165,10 +160,7 @@ class _DetailedRecipeScreenSuccessState
                 ),
                 Text(
                   'Шаги приготовления',
-                  style: TextStyle(
-                      color: greenColor2,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
+                  style: TextStyle(color: greenColor2, fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
                   height: 18,
@@ -181,9 +173,7 @@ class _DetailedRecipeScreenSuccessState
                 ),
                 Center(
                   child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        color: greenColor2),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25), color: greenColor2),
                     width: 232,
                     height: 48,
                     child: const Center(
@@ -244,10 +234,7 @@ class _DetailedRecipeScreenSuccessState
                 children: [
                   Text(
                     ingredients[index],
-                    style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
+                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black),
                   ),
                   Text(
                     measure[index],
@@ -275,9 +262,7 @@ class _DetailedRecipeScreenSuccessState
               height: 120,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: checkCookingSteps[index] == true
-                      ? greenColor3
-                      : backgroundColor),
+                  color: checkCookingSteps[index] == true ? greenColor3 : backgroundColor),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -286,9 +271,7 @@ class _DetailedRecipeScreenSuccessState
                     child: Text(
                       (index + 1).toString(),
                       style: TextStyle(
-                          color: checkCookingSteps[index] == true
-                              ? greenColor
-                              : grey2Colors,
+                          color: checkCookingSteps[index] == true ? greenColor : grey2Colors,
                           fontSize: 40,
                           fontWeight: FontWeight.bold),
                     ),
@@ -327,10 +310,7 @@ class _DetailedRecipeScreenSuccessState
                         Text(
                           '01:00',
                           style: TextStyle(
-                              color: checkCookingSteps[index] == true
-                                  ? greenColor2
-                                  : greyColors,
-                              fontSize: 13),
+                              color: checkCookingSteps[index] == true ? greenColor2 : greyColors, fontSize: 13),
                         ),
                       ],
                     ),

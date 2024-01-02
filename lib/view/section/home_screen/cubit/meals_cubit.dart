@@ -14,8 +14,8 @@ class MealsCubit extends Cubit<MealsState> {
   final List<Meals> _allMeals = [];
 
   Future<void> fetchAllMeals() async {
-    emit(state.copyWith(error: null));
-    emit(state.copyWith(status: const StateStatus.loading()));
+    emit(state.copyWith(error: null, status: const StateStatus.loading()));
+    print('1231212');
     _allMeals.clear();
     final dataResponse = await _mealsRepository.fetchMeals();
     dataResponse.when(
@@ -31,6 +31,8 @@ class MealsCubit extends Cubit<MealsState> {
         }
       },
       error: (error) {
+        print('22222');
+        print(error.message);
         emit(
           state.copyWith(status: StateStatus.error(error), error: error),
         );

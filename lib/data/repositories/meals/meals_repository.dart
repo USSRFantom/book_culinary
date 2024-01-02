@@ -19,7 +19,7 @@ class MealsRepository {
       );
   }
 
-  Future<DataResponse<List<Meal>>> getFavoritesMeals() async {
+  Future<DataResponse<List<Meals>>> getFavoritesMeals() async {
     return FetchData.fromLocal(
         getFromLocalStorage: _localRepository.getFavoritesMeals);
   }

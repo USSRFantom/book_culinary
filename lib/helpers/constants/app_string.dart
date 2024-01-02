@@ -21,7 +21,7 @@ class AppStrings {
   static const favorites = 'Избранное';
   static const profile = 'Профиль';
   static const repeat = 'Повторить';
-
+  static const min = 'минут';
 
 
 
