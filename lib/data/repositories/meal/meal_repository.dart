@@ -24,4 +24,5 @@ class MealRepository {
   Future<void> saveLikeMeal(Meals meal) async {
     _localRepository.saveLikeMeal(meal);
   }
+
 }

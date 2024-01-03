@@ -12,7 +12,6 @@ abstract class MealsState with _$MealsState {
     @Default(StateStatus.success()) StateStatus status,
     @Default(false) bool allPagesLoaded,
     @Default([]) List<Meals> meals,
-    @Default([]) List<Ingredients> ingredients,
     AppError? error,
   }) = _MealsState;
 

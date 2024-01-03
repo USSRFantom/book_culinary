@@ -1,5 +1,6 @@
 import 'package:book_culinary/helpers/constants/app_string.dart';
 import 'package:book_culinary/helpers/constants/constant_colors.dart';
+import 'package:book_culinary/view/section/detailed_recipe/cubit/detailed_recipe_cubit.dart';
 import 'package:book_culinary/view/section/favorites/cubit/favorites_cubit.dart';
 import 'package:book_culinary/view/section/favorites/favorites_screen.dart';
 import 'package:book_culinary/view/section/home_screen/cubit/meals_cubit.dart';
@@ -19,13 +20,14 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   late final MealsCubit _mealsCubit;
-  late final FavoritesCubit _favoritesCubit;
+  late final MealCubit _mealCubit;
 
   @override
   void initState() {
     _mealsCubit = context.read();
+    _mealCubit = context.read();
     _mealsCubit.fetchAllMeals();
-    _mealsCubit.fetchAllIngredients();
+    _mealCubit.fetchAllIngredients();
     super.initState();
   }
 

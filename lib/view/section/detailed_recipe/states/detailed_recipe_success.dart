@@ -1,4 +1,3 @@
-import 'package:book_culinary/domain/models/meal.dart';
 import 'package:book_culinary/domain/models/meals.dart';
 import 'package:book_culinary/helpers/constants/app_string.dart';
 import 'package:book_culinary/helpers/constants/constant_colors.dart';
@@ -20,6 +19,7 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
   late RefreshController _refreshController;
 
   late final MealCubit mealCubit;
+
 
   List<bool?> checkCookingSteps = [
     false,
