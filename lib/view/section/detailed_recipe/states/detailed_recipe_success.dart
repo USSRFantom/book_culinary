@@ -1,4 +1,7 @@
+import 'package:book_culinary/domain/models/ingredients.dart';
 import 'package:book_culinary/domain/models/meals.dart';
+import 'package:book_culinary/domain/models/measure_ingredient.dart';
+import 'package:book_culinary/domain/models/recipe_ingredient.dart';
 import 'package:book_culinary/helpers/constants/app_string.dart';
 import 'package:book_culinary/helpers/constants/constant_colors.dart';
 import 'package:book_culinary/view/section/detailed_recipe/cubit/detailed_recipe_cubit.dart';
@@ -19,7 +22,6 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
   late RefreshController _refreshController;
 
   late final MealCubit mealCubit;
-
 
   List<bool?> checkCookingSteps = [
     false,
@@ -50,8 +52,10 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
   @override
   Widget build(BuildContext context) {
     Meals? meal = context.watch<MealCubit>().state.meals;
-    // List<String> ingredients = mealCubit.getIngredients(meal);
-    // List<String> measure = mealCubit.getMeasure(meal);
+    List<Ingredients> ingredients = context.watch<MealCubit>().state.ingredients;
+    List<RecipeIngredients> recipeIngredients = context.watch<MealCubit>().state.recipeIngredients;
+    List<MeasureIngredient> measureIngredient = context.watch<MealCubit>().state.measureIngredient;
+
     return Expanded(
       child: NotificationListener<ScrollNotification>(
         onNotification: (ScrollNotification scrollInfo) {
@@ -82,9 +86,9 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                     ),
                     IconButton(
                       onPressed: () {
-                         setState(() {
-                           meal.like = true;
-                         });
+                        setState(() {
+                          meal.like = true;
+                        });
                         mealCubit.saveLikeMeal(meal);
                       },
                       icon: meal.like == true
@@ -143,18 +147,17 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                 const SizedBox(
                   height: 18,
                 ),
-                // Container(
-                //   padding: const EdgeInsets.only(
-                //       left: 8, right: 8, top: 15, bottom: 18),
-                //   decoration: BoxDecoration(
-                //     borderRadius: BorderRadius.circular(5),
-                //     border: Border.all(
-                //       color: greyColors,
-                //       width: 3,
-                //     ),
-                //   ),
-                //   child: Column(children: getIngredients(ingredients, measure)),
-                // ),
+                Container(
+                  padding: const EdgeInsets.only(left: 8, right: 8, top: 15, bottom: 18),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(
+                      color: greyColors,
+                      width: 3,
+                    ),
+                  ),
+                  child: Column(children: getIngredients(ingredients, recipeIngredients, meal.id, measureIngredient)),
+                ),
                 const SizedBox(
                   height: 22,
                 ),
@@ -221,32 +224,88 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
     );
   }
 
-  List<Widget> getIngredients(List<String> ingredients, List<String> measure) {
-    List<Widget> result = [];
+  List<String> getMeasure(List<int> idIngredient, List<int> count, List<MeasureIngredient> measureIngredient)
+  {
 
-    for (var index = 0; index < ingredients.length; index++) {
-      if (ingredients[index] != "") {
-        result.add(
-          Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    ingredients[index],
-                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black),
-                  ),
-                  Text(
-                    measure[index],
-                    style: TextStyle(fontSize: 13, color: greyColors),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 17),
-            ],
-          ),
-        );
+    print(idIngredient);
+    List<String> measureResult = [];
+    for(var index = 0; index < idIngredient.length; index++){
+      for (var element in measureIngredient) {
+
+        print(idIngredient[index] == element.id);
+        print(idIngredient[index]);
+        print(element.id);
+        print(count[index]);
+
+        if (idIngredient[index] == element.id){
+          if (count[index] <= 1 ){
+            measureResult.add(element.one);
+          }
+
+          if (count[index] >= 1 && count[index] <= 4){
+            measureResult.add(element.few);
+          }
+
+          if (count[index] > 5 ){
+            measureResult.add(element.many);
+          }
+        }
       }
+    }
+    return measureResult;
+  }
+
+
+  List<Widget> getIngredients(List<Ingredients> ingredients, List<RecipeIngredients> recipeIngredients, int id,
+      List<MeasureIngredient> measureIngredient) {
+    List<Widget> result = [];
+    List<int> idIngredient = [];
+    List<int> count = [];
+    List<String> measureResult = [];
+    List<String> nameIngredient = [];
+    List<int> idIngredientMeasure = [];
+    for (var element in recipeIngredients) {
+      if (element.recipe.id == id) {
+        idIngredient.add(element.ingredient.id);
+        count.add(element.count);
+      }
+    }
+
+
+    for (var index = 0; index < ingredients.length; index++){
+      for(var index2 = 0; index2 < idIngredient.length; index2++){
+
+        if (ingredients[index].id == idIngredient[index2]){
+          nameIngredient.add(ingredients[index].name);
+          idIngredientMeasure.add(ingredients[index].measureUnit.id);
+
+        }
+      }
+    }
+
+    measureResult = getMeasure(idIngredientMeasure, count, measureIngredient);
+
+    for (var index = 0; index < nameIngredient.length; index++) {
+      result.add(
+        Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  nameIngredient[index],
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black),
+                ),
+                Text(
+                  "${count[index]} ${measureResult[index]}",
+                  style: TextStyle(fontSize: 13, color: greyColors),
+                ),
+              ],
+            ),
+            const SizedBox(height: 17),
+          ],
+        ),
+      );
     }
 
     return result;

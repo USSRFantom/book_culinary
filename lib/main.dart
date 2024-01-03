@@ -1,6 +1,11 @@
 import 'package:book_culinary/core/http/http_client.dart';
+import 'package:book_culinary/domain/models/ingredient.dart';
+import 'package:book_culinary/domain/models/ingredients.dart';
 import 'package:book_culinary/domain/models/meal.dart';
 import 'package:book_culinary/domain/models/meals.dart';
+import 'package:book_culinary/domain/models/measure_ingredient.dart';
+import 'package:book_culinary/domain/models/measure_unit.dart';
+import 'package:book_culinary/domain/models/recipe_ingredient.dart';
 import 'package:book_culinary/locator_service.dart' as di;
 import 'package:book_culinary/view/section/detailed_recipe/cubit/detailed_recipe_cubit.dart';
 import 'package:book_culinary/view/section/favorites/cubit/favorites_cubit.dart';
@@ -19,7 +24,13 @@ void main() async {
   await Hive.initFlutter();
   Hive
     ..registerAdapter(MealsAdapter())
-    ..registerAdapter(MealAdapter());
+    ..registerAdapter(MealAdapter())
+    ..registerAdapter(MeasureIngredientAdapter())
+    ..registerAdapter(IngredientAdapter())
+    ..registerAdapter(IngredientsAdapter())
+    ..registerAdapter(MeasureUnitAdapter())
+    ..registerAdapter(RecipeIngredientsAdapter());
+
   initHttpClient();
   runApp(const MyApp());
 }
@@ -31,12 +42,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<MealsCubit>(
-            create: (context) => serviceLocator<MealsCubit>()),
-        BlocProvider<MealCubit>(
-            create: (context) => serviceLocator<MealCubit>()),
-        BlocProvider<FavoritesCubit>(
-            create: (context) => serviceLocator<FavoritesCubit>()),
+        BlocProvider<MealsCubit>(create: (context) => serviceLocator<MealsCubit>()),
+        BlocProvider<MealCubit>(create: (context) => serviceLocator<MealCubit>()),
+        BlocProvider<FavoritesCubit>(create: (context) => serviceLocator<FavoritesCubit>()),
       ],
       child: ScreenUtilInit(
         builder: (context, widget) => const MainScreen(),

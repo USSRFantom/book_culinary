@@ -26,8 +26,10 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     _mealsCubit = context.read();
     _mealCubit = context.read();
-    _mealsCubit.fetchAllMeals();
     _mealCubit.fetchAllIngredients();
+    _mealCubit.fetchIngredients();
+    _mealCubit.fetchMeasureUnit();
+    _mealsCubit.fetchAllMeals();
     super.initState();
   }
 

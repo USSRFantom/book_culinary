@@ -3,6 +3,8 @@ import 'package:book_culinary/data/repositories/meals/meals_repository.dart';
 import 'package:book_culinary/domain/models/ingredients.dart';
 import 'package:book_culinary/domain/models/meal.dart';
 import 'package:book_culinary/domain/models/meals.dart';
+import 'package:book_culinary/domain/models/measure_ingredient.dart';
+import 'package:book_culinary/domain/models/recipe_ingredient.dart';
 import 'package:book_culinary/view/base/bloc/state_status.dart';
 import 'package:book_culinary/view/section/detailed_recipe/cubit/detailed_recipe_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,14 +13,16 @@ class MealCubit extends Cubit<MealState> {
   final MealRepository _mealRepository;
   final MealsRepository _mealsRepository;
 
-
   MealCubit(
     this._mealRepository,
-      this._mealsRepository,
+    this._mealsRepository,
   ) : super(const MealState());
 
   late Meal meal;
   final List<Ingredients> _allIngredients = [];
+  final List<RecipeIngredients> _allRecipeIngredients = [];
+  final List<MeasureIngredient> _measureIngredient = [];
+
 
   Future<void> fetchAllMeal(int idMeal) async {
     emit(state.copyWith(error: null, status: const StateStatus.loading()));
@@ -51,7 +55,7 @@ class MealCubit extends Cubit<MealState> {
   }
 
   Future<void> fetchAllIngredients() async {
-    final dataResponse = await _mealsRepository.fetchIngredients();
+    final dataResponse = await _mealsRepository.fetchAllIngredients();
     dataResponse.when(
       data: (data) {
         emit(
@@ -62,6 +66,42 @@ class MealCubit extends Cubit<MealState> {
         );
         if (data.isNotEmpty) {
           _allIngredients.addAll(data);
+        }
+      },
+      error: (error) {},
+    );
+  }
+
+  Future<void> fetchIngredients() async {
+    final dataResponse = await _mealsRepository.fetchRecipeIngredients();
+    dataResponse.when(
+      data: (data) {
+        emit(
+          state.copyWith(
+            status: const StateStatus.success(),
+            recipeIngredients: data,
+          ),
+        );
+        if (data.isNotEmpty) {
+          _allRecipeIngredients.addAll(data);
+        }
+      },
+      error: (error) {},
+    );
+  }
+
+  Future<void> fetchMeasureUnit() async {
+    final dataResponse = await _mealsRepository.fetchMeasureUnit();
+    dataResponse.when(
+      data: (data) {
+        emit(
+          state.copyWith(
+            status: const StateStatus.success(),
+            measureIngredient: data,
+          ),
+        );
+        if (data.isNotEmpty) {
+          _measureIngredient.addAll(data);
         }
       },
       error: (error) {},

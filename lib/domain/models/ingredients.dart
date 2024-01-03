@@ -12,7 +12,7 @@ class Ingredients extends HiveObject {
   @HiveField(1)
   final String name;
   @HiveField(2)
-  final int caloriesForUnit;
+  final double caloriesForUnit;
   @HiveField(3)
   MeasureUnit measureUnit;
 
