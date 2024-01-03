@@ -2,6 +2,7 @@ import 'package:book_culinary/data/repositories/base/base_repository.dart';
 import 'package:book_culinary/data/repositories/base/data_response.dart';
 import 'package:book_culinary/data/repositories/meals/meals_local_repository.dart';
 import 'package:book_culinary/data/repositories/meals/meals_remote_repository.dart';
+import 'package:book_culinary/domain/models/ingredients.dart';
 import 'package:book_culinary/domain/models/meal.dart';
 import 'package:book_culinary/domain/models/meals.dart';
 
@@ -18,6 +19,16 @@ class MealsRepository {
         saveToLocalStorage: (value) => _localRepository.saveMeals(value),
       );
   }
+
+  Future<DataResponse<List<Ingredients>>> fetchIngredients() async {
+    return FetchData.fromRemoteWithSaveElseLocal<List<Ingredients>>(
+      getFromRemote: () => _remoteRepository.getIngredients(),
+      getFromLocalStorage: () => _localRepository.getIngredients(),
+      saveToLocalStorage: (value) => _localRepository.saveIngredients(value),
+    );
+  }
+
+
 
   Future<DataResponse<List<Meals>>> getFavoritesMeals() async {
     return FetchData.fromLocal(

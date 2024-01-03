@@ -22,7 +22,6 @@ class AppStrings {
   static const profile = 'Профиль';
   static const repeat = 'Повторить';
   static const min = 'минут';
-
-
+  static const ingredients = 'Ингридиенты';
 
 }

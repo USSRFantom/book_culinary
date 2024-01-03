@@ -137,7 +137,7 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                   height: 22,
                 ),
                 Text(
-                  'Ингридиенты',
+                  AppStrings.ingredients,
                   style: TextStyle(color: greenColor2, fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(

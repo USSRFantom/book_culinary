@@ -10,8 +10,8 @@ class FavoritesScreenError extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        constraints: const BoxConstraints(
-          maxWidth: 872,
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -24,7 +24,7 @@ class FavoritesScreenError extends StatelessWidget {
             InkWell(
               onTap: () => context.read<FavoritesCubit>().fetchAllFavoritesMeals(),
               child: const Text(
-                "Повторить",
+                AppStrings.repeat,
               ),
             )
           ],
