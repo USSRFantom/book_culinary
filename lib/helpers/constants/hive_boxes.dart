@@ -3,6 +3,7 @@ class HiveBoxes {
   static const meal = 'meal';
   static const like = 'like';
   static const ingredients = 'ingredients';
+  static const recipeStep = 'recipeStep';
   static const recipe = 'recipe';
   static const measure = 'measure';
 
@@ -12,5 +13,6 @@ class HiveBoxes {
         like,
         ingredients,
         recipe,
+    recipeStep
       ];
 }

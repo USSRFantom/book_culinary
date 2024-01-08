@@ -7,6 +7,7 @@ import 'package:book_culinary/domain/models/meal.dart';
 import 'package:book_culinary/domain/models/meals.dart';
 import 'package:book_culinary/domain/models/measure_ingredient.dart';
 import 'package:book_culinary/domain/models/recipe_ingredient.dart';
+import 'package:book_culinary/domain/models/recipe_step.dart';
 
 class MealsRepository {
   final MealsLocalRepository _localRepository;
@@ -29,6 +30,16 @@ class MealsRepository {
       saveToLocalStorage: (value) => _localRepository.saveAllIngredients(value),
     );
   }
+
+  Future<DataResponse<List<RecipeStep>>> fetchAllRecipeStep() async {
+    return FetchData.fromRemoteWithSaveElseLocal<List<RecipeStep>>(
+      getFromRemote: () => _remoteRepository.getAllRecipeStep(),
+      getFromLocalStorage: () => _localRepository.getAllRecipeStep(),
+      saveToLocalStorage: (value) => _localRepository.saveAllRecipeStep(value),
+    );
+  }
+
+
 
   Future<DataResponse<List<RecipeIngredients>>> fetchRecipeIngredients() async {
     return FetchData.fromRemoteWithSaveElseLocal<List<RecipeIngredients>>(

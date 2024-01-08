@@ -5,6 +5,7 @@ import 'package:book_culinary/domain/models/ingredients.dart';
 import 'package:book_culinary/domain/models/meals.dart';
 import 'package:book_culinary/domain/models/measure_ingredient.dart';
 import 'package:book_culinary/domain/models/recipe_ingredient.dart';
+import 'package:book_culinary/domain/models/recipe_step.dart';
 
 class MealsRemoteRepository {
   Future<DataResponse<List<Meals>>> getMeals() async {
@@ -28,6 +29,16 @@ class MealsRemoteRepository {
       Ingredients.fromJson,
     );
   }
+
+
+  Future<DataResponse<List<RecipeStep>>> getAllRecipeStep() async {
+    return await httpClient.getList<RecipeStep>(
+      ApiRoutes.getRecipeStep,
+      RecipeStep.fromJson,
+    );
+  }
+
+
 
 
   Future<DataResponse<List<MeasureIngredient>>> getMeasureUnit() async {

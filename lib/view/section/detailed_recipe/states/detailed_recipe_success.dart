@@ -226,26 +226,16 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
 
   List<String> getMeasure(List<int> idIngredient, List<int> count, List<MeasureIngredient> measureIngredient)
   {
-
-    print(idIngredient);
     List<String> measureResult = [];
     for(var index = 0; index < idIngredient.length; index++){
       for (var element in measureIngredient) {
-
-        print(idIngredient[index] == element.id);
-        print(idIngredient[index]);
-        print(element.id);
-        print(count[index]);
-
         if (idIngredient[index] == element.id){
           if (count[index] <= 1 ){
             measureResult.add(element.one);
           }
-
           if (count[index] >= 1 && count[index] <= 4){
             measureResult.add(element.few);
           }
-
           if (count[index] > 5 ){
             measureResult.add(element.many);
           }

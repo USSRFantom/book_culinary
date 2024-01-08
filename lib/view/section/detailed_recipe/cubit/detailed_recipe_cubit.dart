@@ -5,6 +5,7 @@ import 'package:book_culinary/domain/models/meal.dart';
 import 'package:book_culinary/domain/models/meals.dart';
 import 'package:book_culinary/domain/models/measure_ingredient.dart';
 import 'package:book_culinary/domain/models/recipe_ingredient.dart';
+import 'package:book_culinary/domain/models/recipe_step.dart';
 import 'package:book_culinary/view/base/bloc/state_status.dart';
 import 'package:book_culinary/view/section/detailed_recipe/cubit/detailed_recipe_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,7 +23,7 @@ class MealCubit extends Cubit<MealState> {
   final List<Ingredients> _allIngredients = [];
   final List<RecipeIngredients> _allRecipeIngredients = [];
   final List<MeasureIngredient> _measureIngredient = [];
-
+  final List<RecipeStep> _recipeStep = [];
 
   Future<void> fetchAllMeal(int idMeal) async {
     emit(state.copyWith(error: null, status: const StateStatus.loading()));
@@ -72,6 +73,24 @@ class MealCubit extends Cubit<MealState> {
     );
   }
 
+  Future<void> fetchAllRecipeStep() async {
+    final dataResponse = await _mealsRepository.fetchAllRecipeStep();
+    dataResponse.when(
+      data: (data) {
+        emit(
+          state.copyWith(
+            status: const StateStatus.success(),
+            recipeStep: data,
+          ),
+        );
+        if (data.isNotEmpty) {
+          _recipeStep.addAll(data);
+        }
+      },
+      error: (error) {},
+    );
+  }
+
   Future<void> fetchIngredients() async {
     final dataResponse = await _mealsRepository.fetchRecipeIngredients();
     dataResponse.when(
@@ -107,6 +126,4 @@ class MealCubit extends Cubit<MealState> {
       error: (error) {},
     );
   }
-
-
 }

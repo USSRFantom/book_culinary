@@ -4,6 +4,7 @@ import 'package:book_culinary/domain/models/meal.dart';
 import 'package:book_culinary/domain/models/meals.dart';
 import 'package:book_culinary/domain/models/measure_ingredient.dart';
 import 'package:book_culinary/domain/models/recipe_ingredient.dart';
+import 'package:book_culinary/domain/models/recipe_step.dart';
 import 'package:book_culinary/view/base/bloc/state_status.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -18,6 +19,7 @@ abstract class MealState with _$MealState {
     @Default([]) List<Ingredients> ingredients,
     @Default([]) List<RecipeIngredients> recipeIngredients,
     @Default([]) List<MeasureIngredient> measureIngredient,
+    @Default([]) List<RecipeStep> recipeStep,
     AppError? error,
   }) = _MealState;
 
