@@ -22,6 +22,7 @@ abstract class MealState with _$MealState {
     @Default([]) List<MeasureIngredient> measureIngredient,
     @Default([]) List<RecipeStepLink> recipeStepLink,
     @Default([]) List<RecipeStep> recipeStep,
+    @Default([]) List<RecipeStep> step,
     AppError? error,
   }) = _MealState;
 

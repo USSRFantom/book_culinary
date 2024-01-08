@@ -14,7 +14,7 @@ class HiveBoxes {
         like,
         ingredients,
         recipe,
-    recipeStep,
-    recipeStepLink,
+        recipeStep,
+        recipeStepLink,
       ];
 }

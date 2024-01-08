@@ -111,7 +111,6 @@ class MealCubit extends Cubit<MealState> {
     );
   }
 
-
   Future<void> fetchIngredients() async {
     final dataResponse = await _mealsRepository.fetchRecipeIngredients();
     dataResponse.when(
@@ -146,5 +145,28 @@ class MealCubit extends Cubit<MealState> {
       },
       error: (error) {},
     );
+  }
+
+  void getSTep(int idRecipe) {
+    List<RecipeStep> result = [];
+
+    for (var element in _recipeStepLink) {
+      if (element.recipe.id == idRecipe) {
+        for (var step in _recipeStep) {
+          if (step.id == element.step.id){
+            result.add(step);
+          }
+
+        }
+      }
+    }
+    if (result.isNotEmpty) {
+      emit(
+        state.copyWith(
+          status: const StateStatus.success(),
+          step: result,
+        ),
+      );
+    }
   }
 }

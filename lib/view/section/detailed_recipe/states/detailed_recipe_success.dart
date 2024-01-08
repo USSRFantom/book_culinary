@@ -2,6 +2,7 @@ import 'package:book_culinary/domain/models/ingredients.dart';
 import 'package:book_culinary/domain/models/meals.dart';
 import 'package:book_culinary/domain/models/measure_ingredient.dart';
 import 'package:book_culinary/domain/models/recipe_ingredient.dart';
+import 'package:book_culinary/domain/models/recipe_step.dart';
 import 'package:book_culinary/helpers/constants/app_string.dart';
 import 'package:book_culinary/helpers/constants/constant_colors.dart';
 import 'package:book_culinary/view/section/detailed_recipe/cubit/detailed_recipe_cubit.dart';
@@ -55,7 +56,7 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
     List<Ingredients> ingredients = context.watch<MealCubit>().state.ingredients;
     List<RecipeIngredients> recipeIngredients = context.watch<MealCubit>().state.recipeIngredients;
     List<MeasureIngredient> measureIngredient = context.watch<MealCubit>().state.measureIngredient;
-
+    List<RecipeStep> step = context.watch<MealCubit>().state.step;
     return Expanded(
       child: NotificationListener<ScrollNotification>(
         onNotification: (ScrollNotification scrollInfo) {
@@ -169,7 +170,7 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                   height: 18,
                 ),
                 Column(
-                  children: getCookingSteps(),
+                  children: getCookingSteps(step),
                 ),
                 const SizedBox(
                   height: 23,
@@ -301,9 +302,9 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
     return result;
   }
 
-  List<Widget> getCookingSteps() {
+  List<Widget> getCookingSteps(List<RecipeStep> step) {
     List<Widget> result = [];
-    for (int index = 0; index < checkCookingSteps.length; index++) {
+    for (int index = 0; index < step.length; index++) {
       result.add(
         Column(
           children: [
@@ -330,7 +331,7 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                   ),
                   Expanded(
                     child: Text(
-                      'Кладем сыр, помидоры и базилик на основу, ставим в духовку еще на 10 минут. Пицца готова, когда сыр расплавится.',
+                      step[index].name,
                       style: TextStyle(fontSize: 12, color: greyColors),
                       maxLines: 6,
                     ),
@@ -357,7 +358,7 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                           height: 14,
                         ),
                         Text(
-                          '01:00',
+                          "${step[index].duration} мин.",
                           style: TextStyle(
                               color: checkCookingSteps[index] == true ? greenColor2 : greyColors, fontSize: 13),
                         ),
