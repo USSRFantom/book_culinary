@@ -28,6 +28,7 @@ class _MainScreenState extends State<MainScreen> {
     _mealCubit = context.read();
     _mealCubit.fetchAllIngredients();
     _mealCubit.fetchAllRecipeStep();
+    _mealCubit.fetchAllRecipeStepLink();
     _mealCubit.fetchIngredients();
     _mealCubit.fetchMeasureUnit();
     _mealsCubit.fetchAllMeals();

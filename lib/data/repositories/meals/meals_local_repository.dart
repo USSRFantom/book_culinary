@@ -5,6 +5,7 @@ import 'package:book_culinary/domain/models/meals.dart';
 import 'package:book_culinary/domain/models/measure_ingredient.dart';
 import 'package:book_culinary/domain/models/recipe_ingredient.dart';
 import 'package:book_culinary/domain/models/recipe_step.dart';
+import 'package:book_culinary/domain/models/recipe_step_link.dart';
 import 'package:book_culinary/helpers/constants/hive_boxes.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -21,12 +22,17 @@ class MealsLocalRepository {
     await box.close();
   }
 
+  Future<void> saveAllRecipeStepLink(List<RecipeStepLink> recipeStep) async {
+    var box = await Hive.openBox<RecipeStepLink>(HiveBoxes.recipeStepLink);
+    await box.putAll(Map.fromEntries(recipeStep.map((recipeStep) => MapEntry(recipeStep.id, recipeStep))));
+    await box.close();
+  }
+
   Future<void> saveAllRecipeStep(List<RecipeStep> recipeStep) async {
     var box = await Hive.openBox<RecipeStep>(HiveBoxes.recipeStep);
     await box.putAll(Map.fromEntries(recipeStep.map((recipeStep) => MapEntry(recipeStep.id, recipeStep))));
     await box.close();
   }
-
 
 
 
@@ -54,6 +60,13 @@ class MealsLocalRepository {
     return await FetchData.getListFromBox<Ingredients>(
       boxName: HiveBoxes.ingredients,
       sortFunc: (Ingredients a, Ingredients b) => a.id.compareTo(b.id),
+    );
+  }
+
+  Future<DataResponse<List<RecipeStepLink>>> getAllRecipeStepLink() async {
+    return await FetchData.getListFromBox<RecipeStepLink>(
+      boxName: HiveBoxes.recipeStepLink,
+      sortFunc: (RecipeStepLink a, RecipeStepLink b) => a.id.compareTo(b.id),
     );
   }
 

@@ -1,26 +1,24 @@
-import 'package:book_culinary/domain/models/recipe.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive/hive.dart';
 
 part 'recipe_step.g.dart';
 
 @JsonSerializable(includeIfNull: true)
-@HiveType(typeId: 8)
+@HiveType(typeId: 10)
 class RecipeStep extends HiveObject {
   @HiveField(0)
   final int id;
   @HiveField(1)
-  final int number;
+  final String name;
   @HiveField(2)
-  Recipe recipe;
-  @HiveField(3)
-  Recipe step;
+  final int duration;
+
+
 
   RecipeStep(
       this.id,
-      this.number,
-      this.recipe,
-      this.step,
+      this.name,
+      this.duration,
       );
 
 
