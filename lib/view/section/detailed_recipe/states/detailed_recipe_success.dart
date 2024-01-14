@@ -82,22 +82,22 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      meal!.name,
+                      meal != null? meal.name :"",
                       style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     IconButton(
                       onPressed: () {
                         setState(() {
-                          meal.like = true;
+                          meal!.like = true;
                         });
-                        mealCubit.saveLikeMeal(meal);
+                        mealCubit.saveLikeMeal(meal!);
                       },
-                      icon: meal.like == true
+                      icon: meal != null? meal!.like == true
                           ? Image.asset(
                               'assets/svg/like.png',
                               color: Colors.red,
                             )
-                          : Image.asset('assets/svg/like.png'),
+                          : Image.asset('assets/svg/like.png'): Image.asset('assets/svg/like.png'),
                     )
                   ],
                 ),
@@ -118,7 +118,7 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                       width: 11,
                     ),
                     Text(
-                      '${meal!.duration} ${AppStrings.min}',
+                      meal != null? '${meal!.duration} ${AppStrings.min}':'',
                       style: TextStyle(color: greenColor, fontSize: 16),
                     ),
                   ],
@@ -130,13 +130,13 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  child: Image.network(
-                    meal.photo!,
+                  child: meal != null? Image.network(
+                    meal!.photo!,
                     fit: BoxFit.fitWidth,
                     errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
                       return Image.asset('assets/svg/internet.png');
                     },
-                  ),
+                  ): const SizedBox(),
                 ),
                 const SizedBox(
                   height: 22,
@@ -157,7 +157,7 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                       width: 3,
                     ),
                   ),
-                  child: Column(children: getIngredients(ingredients, recipeIngredients, meal.id, measureIngredient)),
+                  child: Column(children: getIngredients(ingredients, recipeIngredients, meal != null? meal!.id: 0, measureIngredient)),
                 ),
                 const SizedBox(
                   height: 22,

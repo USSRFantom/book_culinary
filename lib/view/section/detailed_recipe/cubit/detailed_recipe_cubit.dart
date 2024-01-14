@@ -63,7 +63,6 @@ class MealCubit extends Cubit<MealState> {
       data: (data) {
         emit(
           state.copyWith(
-            status: const StateStatus.success(),
             ingredients: data,
           ),
         );
@@ -81,7 +80,6 @@ class MealCubit extends Cubit<MealState> {
       data: (data) {
         emit(
           state.copyWith(
-            status: const StateStatus.success(),
             recipeStepLink: data,
           ),
         );
@@ -99,7 +97,6 @@ class MealCubit extends Cubit<MealState> {
       data: (data) {
         emit(
           state.copyWith(
-            status: const StateStatus.success(),
             recipeStep: data,
           ),
         );
@@ -117,7 +114,6 @@ class MealCubit extends Cubit<MealState> {
       data: (data) {
         emit(
           state.copyWith(
-            status: const StateStatus.success(),
             recipeIngredients: data,
           ),
         );
@@ -135,7 +131,6 @@ class MealCubit extends Cubit<MealState> {
       data: (data) {
         emit(
           state.copyWith(
-            status: const StateStatus.success(),
             measureIngredient: data,
           ),
         );
@@ -163,7 +158,6 @@ class MealCubit extends Cubit<MealState> {
     if (result.isNotEmpty) {
       emit(
         state.copyWith(
-          status: const StateStatus.success(),
           step: result,
         ),
       );

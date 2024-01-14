@@ -1,5 +1,6 @@
 import 'package:book_culinary/domain/models/meals.dart';
 import 'package:book_culinary/helpers/constants/empty_data_widget.dart';
+import 'package:book_culinary/view/section/detailed_recipe/cubit/detailed_recipe_cubit.dart';
 import 'package:book_culinary/view/section/detailed_recipe/detailed_recipe_screen.dart';
 import 'package:book_culinary/view/section/home_screen/cubit/meals_cubit.dart';
 import 'package:book_culinary/view/section/home_screen/widgets/card_recipe.dart';
@@ -18,7 +19,6 @@ class HomeScreenSuccess extends StatefulWidget {
 class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
   late RefreshController _refreshController;
   late final MealsCubit _cubit;
-
   @override
   void initState() {
     _refreshController = RefreshController();
