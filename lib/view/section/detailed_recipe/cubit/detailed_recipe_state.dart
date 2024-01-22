@@ -1,7 +1,6 @@
 import 'package:book_culinary/core/error/app_error.dart';
 import 'package:book_culinary/domain/models/comment.dart';
 import 'package:book_culinary/domain/models/ingredients.dart';
-import 'package:book_culinary/domain/models/meal.dart';
 import 'package:book_culinary/domain/models/meals.dart';
 import 'package:book_culinary/domain/models/measure_ingredient.dart';
 import 'package:book_culinary/domain/models/recipe_ingredient.dart';

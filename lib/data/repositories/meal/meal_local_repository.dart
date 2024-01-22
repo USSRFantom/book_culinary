@@ -1,7 +1,6 @@
 import 'package:book_culinary/data/repositories/base/base_repository.dart';
 import 'package:book_culinary/data/repositories/base/data_response.dart';
 import 'package:book_culinary/domain/models/comment.dart';
-import 'package:book_culinary/domain/models/meal.dart';
 import 'package:book_culinary/domain/models/meals.dart';
 import 'package:book_culinary/helpers/constants/hive_boxes.dart';
 import 'package:hive_flutter/hive_flutter.dart';

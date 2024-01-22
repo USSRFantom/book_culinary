@@ -1,7 +1,6 @@
 import 'package:book_culinary/helpers/constants/app_string.dart';
 import 'package:book_culinary/helpers/constants/constant_colors.dart';
 import 'package:book_culinary/view/section/detailed_recipe/cubit/detailed_recipe_cubit.dart';
-import 'package:book_culinary/view/section/favorites/cubit/favorites_cubit.dart';
 import 'package:book_culinary/view/section/favorites/favorites_screen.dart';
 import 'package:book_culinary/view/section/home_screen/cubit/meals_cubit.dart';
 import 'package:book_culinary/view/section/home_screen/cubit/meals_state.dart';
