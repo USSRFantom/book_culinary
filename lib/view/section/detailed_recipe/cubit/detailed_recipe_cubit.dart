@@ -56,14 +56,9 @@ class MealCubit extends Cubit<MealState> {
     emit(state.copyWith(comments: []));
     final dataResponse = await _mealRepository.fetchComment();
     _comment.clear();
-    print('==');
-    print(idMeal);
-    print('==');
     dataResponse.when(
       data: (data) {
         for (var element in data) {
-          print(idMeal);
-          print(element.recipe?.id);
           if(element.recipe?.id == idMeal){
             _comment.add(element);
           }
@@ -95,6 +90,8 @@ class MealCubit extends Cubit<MealState> {
 
   Future<void> fetchAllIngredients() async {
     final dataResponse = await _mealsRepository.fetchAllIngredients();
+    _allIngredients.clear();
+    emit(state.copyWith(ingredients: []));
     dataResponse.when(
       data: (data) {
         emit(
@@ -112,6 +109,8 @@ class MealCubit extends Cubit<MealState> {
 
   Future<void> fetchAllRecipeStepLink() async {
     final dataResponse = await _mealsRepository.fetchAllRecipeStepLink();
+    _recipeStepLink.clear();
+    emit(state.copyWith(recipeStepLink: []));
     dataResponse.when(
       data: (data) {
         emit(
@@ -129,6 +128,8 @@ class MealCubit extends Cubit<MealState> {
 
   Future<void> fetchAllRecipeStep() async {
     final dataResponse = await _mealsRepository.fetchAllRecipeStep();
+    _recipeStep.clear();
+    emit(state.copyWith(recipeStep: []));
     dataResponse.when(
       data: (data) {
         emit(
@@ -145,6 +146,8 @@ class MealCubit extends Cubit<MealState> {
   }
 
   Future<void> fetchIngredients() async {
+    emit(state.copyWith(recipeIngredients: []));
+    _allRecipeIngredients.clear();
     final dataResponse = await _mealsRepository.fetchRecipeIngredients();
     dataResponse.when(
       data: (data) {
@@ -162,6 +165,8 @@ class MealCubit extends Cubit<MealState> {
   }
 
   Future<void> fetchMeasureUnit() async {
+    emit(state.copyWith(measureIngredient: []));
+    _measureIngredient.clear();
     final dataResponse = await _mealsRepository.fetchMeasureUnit();
     dataResponse.when(
       data: (data) {
