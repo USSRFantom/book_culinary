@@ -7,6 +7,8 @@ class HiveBoxes {
   static const recipeStepLink = 'recipeStepLink';
   static const recipe = 'recipe';
   static const measure = 'measure';
+  static const comments = 'comments';
+
 
   List<String> get allBoxes => [
         meals,

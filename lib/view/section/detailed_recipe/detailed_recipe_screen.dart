@@ -25,6 +25,7 @@ class _DetailedRecipeScreenState extends State<DetailedRecipeScreen> {
     mealCubit = context.read();
     mealCubit.fetchAllMeal(widget.idMeal);
     mealCubit.getSTep(widget.idMeal);
+    mealCubit.fetchComment(widget.idMeal);
     super.initState();
   }
 

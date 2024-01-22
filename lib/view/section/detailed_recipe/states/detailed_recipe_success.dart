@@ -1,3 +1,4 @@
+import 'package:book_culinary/domain/models/comment.dart';
 import 'package:book_culinary/domain/models/ingredients.dart';
 import 'package:book_culinary/domain/models/meals.dart';
 import 'package:book_culinary/domain/models/measure_ingredient.dart';
@@ -32,7 +33,6 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
     false,
     false,
   ];
-  List<String> comment = [];
   final fieldText = TextEditingController();
 
   void clearText() => fieldText.clear();
@@ -57,6 +57,7 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
     List<RecipeIngredients> recipeIngredients = context.watch<MealCubit>().state.recipeIngredients;
     List<MeasureIngredient> measureIngredient = context.watch<MealCubit>().state.measureIngredient;
     List<RecipeStep> step = context.watch<MealCubit>().state.step;
+    List<Comment> comments = context.watch<MealCubit>().state.comments;
     return Expanded(
       child: NotificationListener<ScrollNotification>(
         onNotification: (ScrollNotification scrollInfo) {
@@ -92,7 +93,7 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                         });
                         mealCubit.saveLikeMeal(meal!);
                       },
-                      icon: meal != null? meal!.like == true
+                      icon: meal != null? meal.like == true
                           ? Image.asset(
                               'assets/svg/like.png',
                               color: Colors.red,
@@ -163,7 +164,7 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                   height: 22,
                 ),
                 Text(
-                  'Шаги приготовления',
+                  AppStrings.step,
                   style: TextStyle(color: greenColor2, fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
@@ -182,7 +183,7 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                     height: 48,
                     child: const Center(
                         child: Text(
-                      'Начать готовить',
+                      AppStrings.startCooking,
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     )),
                   ),
@@ -190,9 +191,9 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                 const SizedBox(
                   height: 32,
                 ),
-                comment.isNotEmpty
+                comments.isNotEmpty
                     ? Column(
-                        children: getComment(comment),
+                        children: getComment(comments),
                       )
                     : const SizedBox(
                         height: 32,
@@ -210,7 +211,7 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                   onSubmitted: (text) {
                     setState(() {
                       clearText();
-                      comment.add(text);
+                      //comment.add(text);
                     });
                   },
                 ),
@@ -377,9 +378,8 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
     return result;
   }
 
-  List<Widget> getComment(List<String> comment) {
+  List<Widget> getComment(List<Comment> comment) {
     List<Widget> result = [];
-
     for (int index = 0; index < comment.length; index++) {
       result.add(
         Column(
@@ -402,7 +402,7 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                             style: TextStyle(color: greenColor, fontSize: 16),
                           ),
                           Text(
-                            getFormatDate(),
+                            getFormatDate(comment[index].datetime),
                             style: TextStyle(color: grey2Colors),
                           ),
                         ],
@@ -410,7 +410,7 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                       const SizedBox(
                         height: 12,
                       ),
-                      Text(comment[index]),
+                      Text(comment[index].text),
                     ],
                   ),
                 ),
@@ -427,8 +427,9 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
     return result;
   }
 
-  String getFormatDate() {
+  String getFormatDate(String date) {
     var outputFormat = DateFormat('dd.MM.yyyy');
-    return outputFormat.format(DateTime.now()).toString();
+    var parsedDate = DateTime.parse(date);
+    return outputFormat.format(parsedDate).toString();
   }
 }

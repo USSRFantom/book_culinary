@@ -6,4 +6,5 @@ class ApiRoutes {
   static const getRecipeStepLink = 'https://foodapi.dzolotov.tech/recipe_step_link';
   static const getRecipeIngredient = 'https://foodapi.dzolotov.tech/recipe_ingredient';
   static const getMeasureUnit = 'https://foodapi.dzolotov.tech/measure_unit';
+  static const getComments = 'https://foodapi.dzolotov.tech/comment';
 }

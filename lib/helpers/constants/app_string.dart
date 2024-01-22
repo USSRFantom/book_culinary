@@ -23,5 +23,6 @@ class AppStrings {
   static const repeat = 'Повторить';
   static const min = 'минут';
   static const ingredients = 'Ингридиенты';
-
+  static const step = 'Шаги приготовления';
+  static const startCooking = "Начать готовить";
 }

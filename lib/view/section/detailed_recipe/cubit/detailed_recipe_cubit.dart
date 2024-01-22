@@ -1,5 +1,6 @@
 import 'package:book_culinary/data/repositories/meal/meal_repository.dart';
 import 'package:book_culinary/data/repositories/meals/meals_repository.dart';
+import 'package:book_culinary/domain/models/comment.dart';
 import 'package:book_culinary/domain/models/ingredients.dart';
 import 'package:book_culinary/domain/models/meal.dart';
 import 'package:book_culinary/domain/models/meals.dart';
@@ -27,6 +28,9 @@ class MealCubit extends Cubit<MealState> {
   final List<RecipeStepLink> _recipeStepLink = [];
   final List<RecipeStep> _recipeStep = [];
 
+  final List<Comment> _comment = [];
+
+
   Future<void> fetchAllMeal(int idMeal) async {
     emit(state.copyWith(error: null, status: const StateStatus.loading()));
     final dataResponse = await _mealRepository.fetchMeal(idMeal: idMeal);
@@ -46,6 +50,32 @@ class MealCubit extends Cubit<MealState> {
       },
     );
   }
+
+
+  Future<void> fetchComment(int idMeal) async {
+    final dataResponse = await _mealRepository.fetchComment();
+    _comment.clear();
+    dataResponse.when(
+      data: (data) {
+        for (var element in data) {
+          if(element.recipe?.id == idMeal){
+            _comment.add(element);
+          }
+        }
+        emit(
+          state.copyWith(
+            comments: _comment,
+          ),
+        );
+      },
+      error: (error) {
+        emit(
+          state.copyWith(status: StateStatus.error(error), error: error),
+        );
+      },
+    );
+  }
+
 
   Future<void> saveLikeMeal(Meals meals) async {
     emit(
@@ -163,4 +193,6 @@ class MealCubit extends Cubit<MealState> {
       );
     }
   }
+
+
 }

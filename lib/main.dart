@@ -1,4 +1,5 @@
 import 'package:book_culinary/core/http/http_client.dart';
+import 'package:book_culinary/domain/models/comment.dart';
 import 'package:book_culinary/domain/models/ingredient.dart';
 import 'package:book_culinary/domain/models/ingredients.dart';
 import 'package:book_culinary/domain/models/meal.dart';
@@ -9,6 +10,7 @@ import 'package:book_culinary/domain/models/recipe.dart';
 import 'package:book_culinary/domain/models/recipe_ingredient.dart';
 import 'package:book_culinary/domain/models/recipe_step.dart';
 import 'package:book_culinary/domain/models/recipe_step_link.dart';
+import 'package:book_culinary/domain/models/user.dart';
 import 'package:book_culinary/locator_service.dart' as di;
 import 'package:book_culinary/view/section/detailed_recipe/cubit/detailed_recipe_cubit.dart';
 import 'package:book_culinary/view/section/favorites/cubit/favorites_cubit.dart';
@@ -35,7 +37,9 @@ void main() async {
     ..registerAdapter(RecipeStepLinkAdapter())
     ..registerAdapter(RecipeStepAdapter())
     ..registerAdapter(RecipeAdapter())
-    ..registerAdapter(RecipeIngredientsAdapter());
+    ..registerAdapter(RecipeIngredientsAdapter())
+    ..registerAdapter(CommentAdapter())
+    ..registerAdapter(UserAdapter());
 
   initHttpClient();
   runApp(const MyApp());
