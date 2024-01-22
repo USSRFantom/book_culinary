@@ -119,7 +119,7 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                       width: 11,
                     ),
                     Text(
-                      meal != null? '${meal!.duration} ${AppStrings.min}':'',
+                      meal != null? '${meal.duration} ${AppStrings.min}':'',
                       style: TextStyle(color: greenColor, fontSize: 16),
                     ),
                   ],
@@ -132,7 +132,7 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                     borderRadius: BorderRadius.circular(5),
                   ),
                   child: meal != null? Image.network(
-                    meal!.photo!,
+                    meal.photo,
                     fit: BoxFit.fitWidth,
                     errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
                       return Image.asset('assets/svg/internet.png');
@@ -158,7 +158,7 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                       width: 3,
                     ),
                   ),
-                  child: Column(children: getIngredients(ingredients, recipeIngredients, meal != null? meal!.id: 0, measureIngredient)),
+                  child: Column(children: getIngredients(ingredients, recipeIngredients, meal != null? meal.id: 0, measureIngredient)),
                 ),
                 const SizedBox(
                   height: 22,
@@ -205,7 +205,7 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                         borderSide: BorderSide(color: greenColor2, width: 2.0),
                       ),
                       suffixIcon: Image.asset('assets/svg/icon_img.png'),
-                      labelText: 'оставить комментарий',
+                      labelText: AppStrings.addComment,
                       labelStyle: TextStyle(color: grey2Colors),
                       suffixStyle: const TextStyle(color: Colors.green)),
                   onSubmitted: (text) {

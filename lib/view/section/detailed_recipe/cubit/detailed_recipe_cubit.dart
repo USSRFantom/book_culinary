@@ -53,11 +53,17 @@ class MealCubit extends Cubit<MealState> {
 
 
   Future<void> fetchComment(int idMeal) async {
+    emit(state.copyWith(comments: []));
     final dataResponse = await _mealRepository.fetchComment();
     _comment.clear();
+    print('==');
+    print(idMeal);
+    print('==');
     dataResponse.when(
       data: (data) {
         for (var element in data) {
+          print(idMeal);
+          print(element.recipe?.id);
           if(element.recipe?.id == idMeal){
             _comment.add(element);
           }

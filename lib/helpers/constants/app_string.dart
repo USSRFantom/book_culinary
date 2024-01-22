@@ -25,4 +25,6 @@ class AppStrings {
   static const ingredients = 'Ингридиенты';
   static const step = 'Шаги приготовления';
   static const startCooking = "Начать готовить";
+  static const addComment = "оставить комментарий";
+
 }
