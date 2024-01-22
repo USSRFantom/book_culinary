@@ -33,4 +33,12 @@ class MealRepository {
     );
   }
 
+  Future<DataResponse<void>> setComment(Comment comment) async {
+    return FetchData.fromRemoteThenLocal(
+      getFromRemote: () => _remoteRepository.setComment(comment),
+      doFromLocalStorage: () =>
+          _localRepository.saveComment(comment),
+    );
+  }
+
 }

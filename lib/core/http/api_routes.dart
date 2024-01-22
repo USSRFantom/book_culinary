@@ -7,4 +7,5 @@ class ApiRoutes {
   static const getRecipeIngredient = 'https://foodapi.dzolotov.tech/recipe_ingredient';
   static const getMeasureUnit = 'https://foodapi.dzolotov.tech/measure_unit';
   static const getComments = 'https://foodapi.dzolotov.tech/comment';
+  static const postComments = 'https://foodapi.dzolotov.tech/comment';
 }

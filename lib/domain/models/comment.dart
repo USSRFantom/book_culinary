@@ -6,6 +6,7 @@ import 'package:hive/hive.dart';
 part 'comment.g.dart';
 
 @JsonSerializable(includeIfNull: true)
+@JsonSerializable(explicitToJson: true)
 @HiveType(typeId: 11)
 class Comment extends HiveObject {
   @HiveField(0)
@@ -24,4 +25,12 @@ class Comment extends HiveObject {
   Comment(this.id, this.text, this.photo, this.datetime, this.user, this.recipe);
 
   factory Comment.fromJson(Map<String, dynamic> json) => _$CommentFromJson(json);
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "text": text,
+    "photo": photo,
+    "datetime": datetime,
+    "user": user,
+    "recipe": recipe,
+  };
 }

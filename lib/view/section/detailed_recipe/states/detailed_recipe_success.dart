@@ -211,7 +211,7 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                   onSubmitted: (text) {
                     setState(() {
                       clearText();
-                      //comment.add(text);
+                      mealCubit.setComment(text);
                     });
                   },
                 ),

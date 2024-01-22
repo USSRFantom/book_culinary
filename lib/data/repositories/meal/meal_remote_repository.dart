@@ -18,4 +18,11 @@ class MealRemoteRepository {
       Comment.fromJson,
     );
   }
+
+  Future<DataResponse<void>> setComment(Comment comment) async {
+    return httpClient.post(
+      ApiRoutes.postComments,
+      data: comment.toJson(),
+    );
+  }
 }

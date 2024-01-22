@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:book_culinary/data/repositories/meal/meal_repository.dart';
 import 'package:book_culinary/data/repositories/meals/meals_repository.dart';
 import 'package:book_culinary/domain/models/comment.dart';
@@ -5,9 +7,11 @@ import 'package:book_culinary/domain/models/ingredients.dart';
 import 'package:book_culinary/domain/models/meal.dart';
 import 'package:book_culinary/domain/models/meals.dart';
 import 'package:book_culinary/domain/models/measure_ingredient.dart';
+import 'package:book_culinary/domain/models/recipe.dart';
 import 'package:book_culinary/domain/models/recipe_ingredient.dart';
 import 'package:book_culinary/domain/models/recipe_step.dart';
 import 'package:book_culinary/domain/models/recipe_step_link.dart';
+import 'package:book_culinary/domain/models/user.dart';
 import 'package:book_culinary/view/base/bloc/state_status.dart';
 import 'package:book_culinary/view/section/detailed_recipe/cubit/detailed_recipe_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,6 +33,7 @@ class MealCubit extends Cubit<MealState> {
   final List<RecipeStep> _recipeStep = [];
 
   final List<Comment> _comment = [];
+  int idRecipe = 0;
 
 
   Future<void> fetchAllMeal(int idMeal) async {
@@ -53,6 +58,7 @@ class MealCubit extends Cubit<MealState> {
 
 
   Future<void> fetchComment(int idMeal) async {
+    idRecipe = idMeal;
     emit(state.copyWith(comments: []));
     final dataResponse = await _mealRepository.fetchComment();
     _comment.clear();
@@ -203,6 +209,24 @@ class MealCubit extends Cubit<MealState> {
         ),
       );
     }
+  }
+
+
+  Future<void> setComment(String text) async {
+    var result  = Comment(Random().nextInt(99999999) + 100, text, '', DateTime.now().toString(), User(1), Recipe(idRecipe));
+    emit(state.copyWith(recipeIngredients: []));
+    _comment.add(result);
+    final dataResponse = await _mealRepository.setComment(result);
+    dataResponse.when(
+      data: (data) {
+        emit(
+          state.copyWith(
+            comments: _comment,
+          ),
+        );
+      },
+      error: (error) {},
+    );
   }
 
 

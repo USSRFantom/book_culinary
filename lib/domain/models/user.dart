@@ -14,4 +14,8 @@ class User extends HiveObject {
   );
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+  };
 }

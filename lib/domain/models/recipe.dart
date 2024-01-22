@@ -14,4 +14,7 @@ class Recipe extends HiveObject {
   );
 
   factory Recipe.fromJson(Map<String, dynamic> json) => _$RecipeFromJson(json);
+  Map<String, dynamic> toJson() => {
+    "id": id,
+  };
 }

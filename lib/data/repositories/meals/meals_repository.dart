@@ -2,6 +2,7 @@ import 'package:book_culinary/data/repositories/base/base_repository.dart';
 import 'package:book_culinary/data/repositories/base/data_response.dart';
 import 'package:book_culinary/data/repositories/meals/meals_local_repository.dart';
 import 'package:book_culinary/data/repositories/meals/meals_remote_repository.dart';
+import 'package:book_culinary/domain/models/comment.dart';
 import 'package:book_culinary/domain/models/ingredients.dart';
 import 'package:book_culinary/domain/models/meal.dart';
 import 'package:book_culinary/domain/models/meals.dart';
@@ -65,10 +66,8 @@ class MealsRepository {
     );
   }
 
-
-
-
   Future<DataResponse<List<Meals>>> getFavoritesMeals() async {
     return FetchData.fromLocal(getFromLocalStorage: _localRepository.getFavoritesMeals);
   }
 }
+

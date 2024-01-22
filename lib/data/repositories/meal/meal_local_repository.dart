@@ -33,4 +33,9 @@ class MealLocalRepository {
     await box.putAll(Map.fromEntries(comments.map((comment) => MapEntry(comment.id, comment))));
     await box.close();
   }
+
+  Future<void> saveComment(Comment comment) async {
+    var box = await Hive.openBox<Comment>(HiveBoxes.comments);
+    await box.put(comment.id, comment);
+  }
 }

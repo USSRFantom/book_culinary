@@ -65,4 +65,30 @@ class AppHttpClient {
       return handleException(e);
     }
   }
+
+  Future<DataResponse<T>> post<T>(
+      String path, {
+        T Function(Map<String, dynamic>)? mapper,
+        data,
+        Map<String, dynamic>? queryParameters,
+        Options? options,
+        CancelToken? cancelToken,
+        ProgressCallback? onSendProgress,
+        ProgressCallback? onReceiveProgress,
+      }) async {
+    try {
+      final response = await _dio.post(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+        onReceiveProgress: onReceiveProgress,
+      );
+      return handleResponse(response, mapper);
+    } on Exception catch (e) {
+      return handleException(e);
+    }
+  }
+
 }
