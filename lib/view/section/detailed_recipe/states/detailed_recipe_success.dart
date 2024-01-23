@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:book_culinary/domain/models/comment.dart';
 import 'package:book_culinary/domain/models/ingredients.dart';
 import 'package:book_culinary/domain/models/meals.dart';
@@ -10,6 +12,7 @@ import 'package:book_culinary/view/section/detailed_recipe/cubit/detailed_recipe
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -24,6 +27,7 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
   late RefreshController _refreshController;
 
   late final MealCubit mealCubit;
+  String? imgPath;
 
   List<bool?> checkCookingSteps = [
     false,
@@ -39,6 +43,7 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
 
   @override
   void initState() {
+    imgPath = null;
     _refreshController = RefreshController();
     mealCubit = context.read();
     super.initState();
@@ -83,7 +88,7 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      meal != null? meal.name :"",
+                      meal != null ? meal.name : "",
                       style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     IconButton(
@@ -93,12 +98,14 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                         });
                         mealCubit.saveLikeMeal(meal!);
                       },
-                      icon: meal != null? meal.like == true
-                          ? Image.asset(
-                              'assets/svg/like.png',
-                              color: Colors.red,
-                            )
-                          : Image.asset('assets/svg/like.png'): Image.asset('assets/svg/like.png'),
+                      icon: meal != null
+                          ? meal.like == true
+                              ? Image.asset(
+                                  'assets/svg/like.png',
+                                  color: Colors.red,
+                                )
+                              : Image.asset('assets/svg/like.png')
+                          : Image.asset('assets/svg/like.png'),
                     )
                   ],
                 ),
@@ -119,7 +126,7 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                       width: 11,
                     ),
                     Text(
-                      meal != null? '${meal.duration} ${AppStrings.min}':'',
+                      meal != null ? '${meal.duration} ${AppStrings.min}' : '',
                       style: TextStyle(color: greenColor, fontSize: 16),
                     ),
                   ],
@@ -131,13 +138,15 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  child: meal != null? Image.network(
-                    meal.photo,
-                    fit: BoxFit.fitWidth,
-                    errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                      return Image.asset('assets/svg/internet.png');
-                    },
-                  ): const SizedBox(),
+                  child: meal != null
+                      ? Image.network(
+                          meal.photo,
+                          fit: BoxFit.fitWidth,
+                          errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                            return Image.asset('assets/svg/internet.png');
+                          },
+                        )
+                      : const SizedBox(),
                 ),
                 const SizedBox(
                   height: 22,
@@ -158,7 +167,9 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                       width: 3,
                     ),
                   ),
-                  child: Column(children: getIngredients(ingredients, recipeIngredients, meal != null? meal.id: 0, measureIngredient)),
+                  child: Column(
+                      children: getIngredients(
+                          ingredients, recipeIngredients, meal != null ? meal.id : 0, measureIngredient)),
                 ),
                 const SizedBox(
                   height: 22,
@@ -204,17 +215,43 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: greenColor2, width: 2.0),
                       ),
-                      suffixIcon: Image.asset('assets/svg/icon_img.png'),
+                      suffixIcon: Column(
+                        children: [
+                          InkWell(
+                            child: Image.asset('assets/svg/icon_img.png'),
+                            onTap: () => getImage(),
+                          ),
+                          const SizedBox(height: 5,),
+                          Visibility(
+                            visible: fieldText.text != "" || imgPath != null,
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 5),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                padding: const EdgeInsets.all(2),
+                                child: const Text(AppStrings.add),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                       labelText: AppStrings.addComment,
                       labelStyle: TextStyle(color: grey2Colors),
                       suffixStyle: const TextStyle(color: Colors.green)),
                   onSubmitted: (text) {
-                    setState(() {
-                      clearText();
-                      mealCubit.setComment(text);
-                    });
+                    setState(() {});
                   },
                 ),
+                Visibility(
+                  visible: imgPath != "" && imgPath != null,
+                  child:  imgPath != null ? Image.file(
+                      File(imgPath!),
+                  ):const SizedBox(),
+                ),
+
                 const SizedBox(
                   height: 32,
                 ),
@@ -226,19 +263,18 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
     );
   }
 
-  List<String> getMeasure(List<int> idIngredient, List<int> count, List<MeasureIngredient> measureIngredient)
-  {
+  List<String> getMeasure(List<int> idIngredient, List<int> count, List<MeasureIngredient> measureIngredient) {
     List<String> measureResult = [];
-    for(var index = 0; index < idIngredient.length; index++){
+    for (var index = 0; index < idIngredient.length; index++) {
       for (var element in measureIngredient) {
-        if (idIngredient[index] == element.id){
-          if (count[index] <= 1 ){
+        if (idIngredient[index] == element.id) {
+          if (count[index] <= 1) {
             measureResult.add(element.one);
           }
-          if (count[index] >= 1 && count[index] <= 4){
+          if (count[index] >= 1 && count[index] <= 4) {
             measureResult.add(element.few);
           }
-          if (count[index] > 5 ){
+          if (count[index] > 5) {
             measureResult.add(element.many);
           }
         }
@@ -246,7 +282,6 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
     }
     return measureResult;
   }
-
 
   List<Widget> getIngredients(List<Ingredients> ingredients, List<RecipeIngredients> recipeIngredients, int id,
       List<MeasureIngredient> measureIngredient) {
@@ -263,14 +298,11 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
       }
     }
 
-
-    for (var index = 0; index < ingredients.length; index++){
-      for(var index2 = 0; index2 < idIngredient.length; index2++){
-
-        if (ingredients[index].id == idIngredient[index2]){
+    for (var index = 0; index < ingredients.length; index++) {
+      for (var index2 = 0; index2 < idIngredient.length; index2++) {
+        if (ingredients[index].id == idIngredient[index2]) {
           nameIngredient.add(ingredients[index].name);
           idIngredientMeasure.add(ingredients[index].measureUnit.id);
-
         }
       }
     }
@@ -431,5 +463,111 @@ class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSucces
     var outputFormat = DateFormat('dd.MM.yyyy');
     var parsedDate = DateTime.parse(date);
     return outputFormat.format(parsedDate).toString();
+  }
+
+  Future<void> getImage() async {
+  await showModalBottomSheet(
+      useRootNavigator: true,
+      isDismissible: true,
+      backgroundColor: Colors.white,
+      context: context,
+      enableDrag: false,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
+      ),
+      builder: (_) {
+        return SizedBox(
+          height: 316,
+          child: Column(
+            children: [
+              InkWell(
+                onTap: () async {
+                  var result = await getImageCamera();
+                  setState(() {
+                    imgPath = result;
+                  });
+                  Navigator.pop(context);
+                },
+                child: const Padding(
+                  padding: EdgeInsets.only(top: 27, bottom: 15),
+                  child: Text(
+                    AppStrings.addPhoto,
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ),
+              const Divider(),
+              InkWell(
+                onTap: () async {
+                  var result = await getImageGallery();
+                  setState(() {
+                    imgPath = result;
+                  });
+                  Navigator.pop(context);
+                },
+                child: const Padding(
+                  padding: EdgeInsets.only(top: 22, bottom: 21),
+                  child: Text(
+                    AppStrings.imageGallery,
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ),
+              const Divider(),
+              const SizedBox(height: 16),
+              const Text(
+                AppStrings.delete,
+                style: TextStyle(fontSize: 16, color: Colors.red),
+              ),
+              const SizedBox(
+                height: 36,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 15, right: 12, bottom: 24),
+                child: InkWell(
+                  onTap: () => Navigator.pop(context),
+                  child: Container(
+                      height: 46,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: const Center(
+                          child: Text(
+                        AppStrings.cancel,
+                        style: TextStyle(fontSize: 16),
+                      ))),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+    }
+
+  Future<String?> getImageCamera() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? photo = await picker.pickImage(source: ImageSource.camera);
+
+    if (photo != null) {
+      return photo.path;
+    } else {
+      return null;
+    }
+  }
+
+  Future<String?> getImageGallery() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? photo = await picker.pickImage(source: ImageSource.gallery);
+    if (photo != null) {
+      return photo.path;
+    } else {
+      return null;
+    }
   }
 }

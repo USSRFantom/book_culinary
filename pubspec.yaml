@@ -50,6 +50,7 @@ dependencies:
   pull_to_refresh: 2.0.0
   flutter_screenutil: ^5.9.0
   cached_network_image: ^3.0.0
+  image_picker: ^1.0.7
   intl: ^0.18.1
 
 dev_dependencies:

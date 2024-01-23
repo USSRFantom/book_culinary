@@ -27,4 +27,12 @@ class AppStrings {
   static const startCooking = "Начать готовить";
   static const addComment = "оставить комментарий";
 
+  static const addPhoto = "Сфотографировать";
+
+  static const imageGallery = "Выбрать из альбома";
+
+  static const delete = "Удалить";
+  static const cancel = "Отмена";
+  static const add = "Отправить";
+
 }
