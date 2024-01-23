@@ -22,9 +22,7 @@ class HomeScreenError extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             InkWell(
-              onTap: () {
-                context.read<MealsCubit>().fetchAllMeals();
-              },
+              onTap: () => context.read<MealsCubit>().fetchAllMeals(),
               child: const Text(
                 "Повторить",
               ),

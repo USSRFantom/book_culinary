@@ -179,7 +179,6 @@ abstract class FetchData {
       if (needToCloseBox) {
         await box.close();
       }
-      print(value);
       return DataResponse.data(value);
     } catch (e, st) {
       return DataResponse.error(
@@ -212,7 +211,6 @@ abstract class FetchData {
         throw LocalStorageError(AppStrings.elemntNotFoundInBox);
       }
     } catch (e, st) {
-      print(e);
       throw LocalStorageError('${e.toString()}\n ${st.toString()}');
     }
   }

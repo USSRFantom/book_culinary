@@ -24,22 +24,20 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return BlocConsumer<FavoritesCubit, FavoritesState>(
-      bloc: _favoritesCubit,
-      builder: (context, state) {
-        return Column(
-          children: [
-            state.status.when(
-                loading: () => const FavoritesScreenLoading(),
-                error: (error) => const FavoritesScreenError(),
-                success: () => const FavoritesScreenSuccess()),
-          ],
-        );
-      },
-      listener: (context, state) {
-        if (state.error != null) {}
-      },
-    );
-  }
+  Widget build(BuildContext context) => BlocConsumer<FavoritesCubit, FavoritesState>(
+        bloc: _favoritesCubit,
+        builder: (context, state) {
+          return Column(
+            children: [
+              state.status.when(
+                  loading: () => const FavoritesScreenLoading(),
+                  error: (error) => const FavoritesScreenError(),
+                  success: () => const FavoritesScreenSuccess()),
+            ],
+          );
+        },
+        listener: (context, state) {
+          if (state.error != null) {}
+        },
+      );
 }

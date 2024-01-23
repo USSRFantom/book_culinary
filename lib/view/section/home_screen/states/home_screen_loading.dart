@@ -8,8 +8,8 @@ class HomeScreenLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        constraints: const BoxConstraints(
-          maxWidth: 872.0,
+        constraints:  BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width,
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(

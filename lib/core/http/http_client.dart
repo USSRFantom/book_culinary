@@ -15,6 +15,7 @@ AppHttpClient get httpClient => getIt<AppHttpClient>();
 
 class AppHttpClient {
   late Dio _dio;
+
   Dio get dio => _dio;
 
   AppHttpClient() {
@@ -38,26 +39,56 @@ class AppHttpClient {
     );
   }
 
-  Future<DataResponse<List<T>>> getList<T>(
-    String path,
-    T Function(Map<String, dynamic>) mapper, {
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
-    ProgressCallback? onSendProgress,
-    ProgressCallback? onReceiveProgress,
-  }) async {
+  Future<DataResponse<List<T>>> getList<T>(String path, T Function(Map<String, dynamic>) mapper) async {
     try {
       final response = await _dio.get(
         path,
-        queryParameters: queryParameters,
-        options: options,
-        cancelToken: cancelToken,
-        onReceiveProgress: onReceiveProgress,
       );
       return handleListResponse(response, mapper);
     } on Exception catch (e) {
       return handleException(e);
     }
   }
+
+  Future<DataResponse<T>> get<T>(
+    String path, {
+    T Function(Map<String, dynamic>)? mapper,
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    try {
+      final response = await _dio.get(
+        path,
+        queryParameters: queryParameters,
+      );
+      return handleResponse(response, mapper);
+    } on Exception catch (e) {
+      return handleException(e);
+    }
+  }
+
+  Future<DataResponse<T>> post<T>(
+      String path, {
+        T Function(Map<String, dynamic>)? mapper,
+        data,
+        Map<String, dynamic>? queryParameters,
+        Options? options,
+        CancelToken? cancelToken,
+        ProgressCallback? onSendProgress,
+        ProgressCallback? onReceiveProgress,
+      }) async {
+    try {
+      final response = await _dio.post(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+        onReceiveProgress: onReceiveProgress,
+      );
+      return handleResponse(response, mapper);
+    } on Exception catch (e) {
+      return handleException(e);
+    }
+  }
+
 }

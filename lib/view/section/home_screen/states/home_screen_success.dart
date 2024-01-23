@@ -18,7 +18,6 @@ class HomeScreenSuccess extends StatefulWidget {
 class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
   late RefreshController _refreshController;
   late final MealsCubit _cubit;
-
   @override
   void initState() {
     _refreshController = RefreshController();
@@ -86,7 +85,6 @@ class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
                 .whenComplete(_refreshController.loadComplete);
           },
           onRefresh: () {
-            _cubit.setPageAllToStart();
             _cubit
                 .fetchAllMeals()
                 .whenComplete(_refreshController.refreshCompleted);
@@ -111,13 +109,13 @@ class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => DetailedRecipeScreen(
-                                      meals[index].strMeal)),
+                                      meals[index].id)),
                             );
                           },
                           child: CardRecipe(
-                            img: meals[index].strMealThumb!,
-                            title: meals[index].strMeal!,
-                            time: 0,
+                            img: meals[index].photo,
+                            title: meals[index].name,
+                            time: meals[index].duration,
                           ),
                         ),
                         const SizedBox(height: 24)

@@ -1,4 +1,5 @@
 import 'package:book_culinary/core/error/app_error.dart';
+import 'package:book_culinary/domain/models/ingredients.dart';
 import 'package:book_culinary/domain/models/meals.dart';
 import 'package:book_culinary/view/base/bloc/state_status.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

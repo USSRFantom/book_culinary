@@ -1,4 +1,10 @@
-import 'package:book_culinary/domain/models/meal.dart';
+import 'package:book_culinary/domain/models/comment.dart';
+import 'package:book_culinary/domain/models/ingredients.dart';
+import 'package:book_culinary/domain/models/meals.dart';
+import 'package:book_culinary/domain/models/measure_ingredient.dart';
+import 'package:book_culinary/domain/models/recipe_ingredient.dart';
+import 'package:book_culinary/domain/models/recipe_step.dart';
+import 'package:book_culinary/helpers/constants/app_string.dart';
 import 'package:book_culinary/helpers/constants/constant_colors.dart';
 import 'package:book_culinary/view/section/detailed_recipe/cubit/detailed_recipe_cubit.dart';
 import 'package:flutter/foundation.dart';
@@ -11,12 +17,10 @@ class DetailedRecipeScreenSuccess extends StatefulWidget {
   const DetailedRecipeScreenSuccess({super.key});
 
   @override
-  State<DetailedRecipeScreenSuccess> createState() =>
-      _DetailedRecipeScreenSuccessState();
+  State<DetailedRecipeScreenSuccess> createState() => _DetailedRecipeScreenSuccessState();
 }
 
-class _DetailedRecipeScreenSuccessState
-    extends State<DetailedRecipeScreenSuccess> {
+class _DetailedRecipeScreenSuccessState extends State<DetailedRecipeScreenSuccess> {
   late RefreshController _refreshController;
 
   late final MealCubit mealCubit;
@@ -29,12 +33,9 @@ class _DetailedRecipeScreenSuccessState
     false,
     false,
   ];
-  List<String> comment = [];
   final fieldText = TextEditingController();
 
-  void clearText() {
-    fieldText.clear();
-  }
+  void clearText() => fieldText.clear();
 
   @override
   void initState() {
@@ -51,9 +52,12 @@ class _DetailedRecipeScreenSuccessState
 
   @override
   Widget build(BuildContext context) {
-    Meal meal = context.watch<MealCubit>().state.meals.first;
-    List<String> ingredients = mealCubit.getIngredients(meal);
-    List<String> measure = mealCubit.getMeasure(meal);
+    Meals? meal = context.watch<MealCubit>().state.meals;
+    List<Ingredients> ingredients = context.watch<MealCubit>().state.ingredients;
+    List<RecipeIngredients> recipeIngredients = context.watch<MealCubit>().state.recipeIngredients;
+    List<MeasureIngredient> measureIngredient = context.watch<MealCubit>().state.measureIngredient;
+    List<RecipeStep> step = context.watch<MealCubit>().state.step;
+    List<Comment> comments = context.watch<MealCubit>().state.comments;
     return Expanded(
       child: NotificationListener<ScrollNotification>(
         onNotification: (ScrollNotification scrollInfo) {
@@ -79,21 +83,22 @@ class _DetailedRecipeScreenSuccessState
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      meal.strMeal!,
-                      style: const TextStyle(
-                          fontSize: 24, fontWeight: FontWeight.bold),
+                      meal != null? meal.name :"",
+                      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     IconButton(
                       onPressed: () {
-                        meal.like = true;
-                        mealCubit.saveLikeMeal(meal);
+                        setState(() {
+                          meal!.like = true;
+                        });
+                        mealCubit.saveLikeMeal(meal!);
                       },
-                      icon: meal.like == true
+                      icon: meal != null? meal.like == true
                           ? Image.asset(
                               'assets/svg/like.png',
                               color: Colors.red,
                             )
-                          : Image.asset('assets/svg/like.png'),
+                          : Image.asset('assets/svg/like.png'): Image.asset('assets/svg/like.png'),
                     )
                   ],
                 ),
@@ -114,7 +119,7 @@ class _DetailedRecipeScreenSuccessState
                       width: 11,
                     ),
                     Text(
-                      '45 минут',
+                      meal != null? '${meal.duration} ${AppStrings.min}':'',
                       style: TextStyle(color: greenColor, fontSize: 16),
                     ),
                   ],
@@ -126,33 +131,26 @@ class _DetailedRecipeScreenSuccessState
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  height: 220,
-                  width: 396,
-                  child: Image.network(
-                    meal.strMealThumb!,
+                  child: meal != null? Image.network(
+                    meal.photo,
                     fit: BoxFit.fitWidth,
-                    errorBuilder: (BuildContext context, Object exception,
-                        StackTrace? stackTrace) {
+                    errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
                       return Image.asset('assets/svg/internet.png');
                     },
-                  ),
+                  ): const SizedBox(),
                 ),
                 const SizedBox(
                   height: 22,
                 ),
                 Text(
-                  'Ингридиенты',
-                  style: TextStyle(
-                      color: greenColor2,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
+                  AppStrings.ingredients,
+                  style: TextStyle(color: greenColor2, fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
                   height: 18,
                 ),
                 Container(
-                  padding: const EdgeInsets.only(
-                      left: 8, right: 8, top: 15, bottom: 18),
+                  padding: const EdgeInsets.only(left: 8, right: 8, top: 15, bottom: 18),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     border: Border.all(
@@ -160,37 +158,32 @@ class _DetailedRecipeScreenSuccessState
                       width: 3,
                     ),
                   ),
-                  child: Column(children: getIngredients(ingredients, measure)),
+                  child: Column(children: getIngredients(ingredients, recipeIngredients, meal != null? meal.id: 0, measureIngredient)),
                 ),
                 const SizedBox(
                   height: 22,
                 ),
                 Text(
-                  'Шаги приготовления',
-                  style: TextStyle(
-                      color: greenColor2,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
+                  AppStrings.step,
+                  style: TextStyle(color: greenColor2, fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
                   height: 18,
                 ),
                 Column(
-                  children: getCookingSteps(),
+                  children: getCookingSteps(step),
                 ),
                 const SizedBox(
                   height: 23,
                 ),
                 Center(
                   child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        color: greenColor2),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25), color: greenColor2),
                     width: 232,
                     height: 48,
                     child: const Center(
                         child: Text(
-                      'Начать готовить',
+                      AppStrings.startCooking,
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     )),
                   ),
@@ -198,9 +191,9 @@ class _DetailedRecipeScreenSuccessState
                 const SizedBox(
                   height: 32,
                 ),
-                comment.isNotEmpty
+                comments.isNotEmpty
                     ? Column(
-                        children: getComment(comment),
+                        children: getComment(comments),
                       )
                     : const SizedBox(
                         height: 32,
@@ -212,13 +205,13 @@ class _DetailedRecipeScreenSuccessState
                         borderSide: BorderSide(color: greenColor2, width: 2.0),
                       ),
                       suffixIcon: Image.asset('assets/svg/icon_img.png'),
-                      labelText: 'оставить комментарий',
+                      labelText: AppStrings.addComment,
                       labelStyle: TextStyle(color: grey2Colors),
                       suffixStyle: const TextStyle(color: Colors.green)),
                   onSubmitted: (text) {
                     setState(() {
                       clearText();
-                      comment.add(text);
+                      mealCubit.setComment(text);
                     });
                   },
                 ),
@@ -233,43 +226,86 @@ class _DetailedRecipeScreenSuccessState
     );
   }
 
-  List<Widget> getIngredients(List<String> ingredients, List<String> measure) {
-    List<Widget> result = [];
-
-    for (var index = 0; index < ingredients.length; index++) {
-      if (ingredients[index] != "") {
-        result.add(
-          Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    ingredients[index],
-                    style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  ),
-                  Text(
-                    measure[index],
-                    style: TextStyle(fontSize: 13, color: greyColors),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 17),
-            ],
-          ),
-        );
+  List<String> getMeasure(List<int> idIngredient, List<int> count, List<MeasureIngredient> measureIngredient)
+  {
+    List<String> measureResult = [];
+    for(var index = 0; index < idIngredient.length; index++){
+      for (var element in measureIngredient) {
+        if (idIngredient[index] == element.id){
+          if (count[index] <= 1 ){
+            measureResult.add(element.one);
+          }
+          if (count[index] >= 1 && count[index] <= 4){
+            measureResult.add(element.few);
+          }
+          if (count[index] > 5 ){
+            measureResult.add(element.many);
+          }
+        }
       }
+    }
+    return measureResult;
+  }
+
+
+  List<Widget> getIngredients(List<Ingredients> ingredients, List<RecipeIngredients> recipeIngredients, int id,
+      List<MeasureIngredient> measureIngredient) {
+    List<Widget> result = [];
+    List<int> idIngredient = [];
+    List<int> count = [];
+    List<String> measureResult = [];
+    List<String> nameIngredient = [];
+    List<int> idIngredientMeasure = [];
+    for (var element in recipeIngredients) {
+      if (element.recipe.id == id) {
+        idIngredient.add(element.ingredient.id);
+        count.add(element.count);
+      }
+    }
+
+
+    for (var index = 0; index < ingredients.length; index++){
+      for(var index2 = 0; index2 < idIngredient.length; index2++){
+
+        if (ingredients[index].id == idIngredient[index2]){
+          nameIngredient.add(ingredients[index].name);
+          idIngredientMeasure.add(ingredients[index].measureUnit.id);
+
+        }
+      }
+    }
+
+    measureResult = getMeasure(idIngredientMeasure, count, measureIngredient);
+
+    for (var index = 0; index < nameIngredient.length; index++) {
+      result.add(
+        Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  nameIngredient[index],
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black),
+                ),
+                Text(
+                  "${count[index]} ${measureResult[index]}",
+                  style: TextStyle(fontSize: 13, color: greyColors),
+                ),
+              ],
+            ),
+            const SizedBox(height: 17),
+          ],
+        ),
+      );
     }
 
     return result;
   }
 
-  List<Widget> getCookingSteps() {
+  List<Widget> getCookingSteps(List<RecipeStep> step) {
     List<Widget> result = [];
-    for (int index = 0; index < checkCookingSteps.length; index++) {
+    for (int index = 0; index < step.length; index++) {
       result.add(
         Column(
           children: [
@@ -277,9 +313,7 @@ class _DetailedRecipeScreenSuccessState
               height: 120,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: checkCookingSteps[index] == true
-                      ? greenColor3
-                      : backgroundColor),
+                  color: checkCookingSteps[index] == true ? greenColor3 : backgroundColor),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -288,9 +322,7 @@ class _DetailedRecipeScreenSuccessState
                     child: Text(
                       (index + 1).toString(),
                       style: TextStyle(
-                          color: checkCookingSteps[index] == true
-                              ? greenColor
-                              : grey2Colors,
+                          color: checkCookingSteps[index] == true ? greenColor : grey2Colors,
                           fontSize: 40,
                           fontWeight: FontWeight.bold),
                     ),
@@ -300,7 +332,7 @@ class _DetailedRecipeScreenSuccessState
                   ),
                   Expanded(
                     child: Text(
-                      'Кладем сыр, помидоры и базилик на основу, ставим в духовку еще на 10 минут. Пицца готова, когда сыр расплавится.',
+                      step[index].name,
                       style: TextStyle(fontSize: 12, color: greyColors),
                       maxLines: 6,
                     ),
@@ -327,12 +359,9 @@ class _DetailedRecipeScreenSuccessState
                           height: 14,
                         ),
                         Text(
-                          '01:00',
+                          "${step[index].duration} мин.",
                           style: TextStyle(
-                              color: checkCookingSteps[index] == true
-                                  ? greenColor2
-                                  : greyColors,
-                              fontSize: 13),
+                              color: checkCookingSteps[index] == true ? greenColor2 : greyColors, fontSize: 13),
                         ),
                       ],
                     ),
@@ -349,9 +378,8 @@ class _DetailedRecipeScreenSuccessState
     return result;
   }
 
-  List<Widget> getComment(List<String> comment) {
+  List<Widget> getComment(List<Comment> comment) {
     List<Widget> result = [];
-
     for (int index = 0; index < comment.length; index++) {
       result.add(
         Column(
@@ -374,7 +402,7 @@ class _DetailedRecipeScreenSuccessState
                             style: TextStyle(color: greenColor, fontSize: 16),
                           ),
                           Text(
-                            getFormatDate(),
+                            getFormatDate(comment[index].datetime),
                             style: TextStyle(color: grey2Colors),
                           ),
                         ],
@@ -382,7 +410,7 @@ class _DetailedRecipeScreenSuccessState
                       const SizedBox(
                         height: 12,
                       ),
-                      Text(comment[index]),
+                      Text(comment[index].text),
                     ],
                   ),
                 ),
@@ -399,8 +427,9 @@ class _DetailedRecipeScreenSuccessState
     return result;
   }
 
-  String getFormatDate() {
+  String getFormatDate(String date) {
     var outputFormat = DateFormat('dd.MM.yyyy');
-    return outputFormat.format(DateTime.now()).toString();
+    var parsedDate = DateTime.parse(date);
+    return outputFormat.format(parsedDate).toString();
   }
 }

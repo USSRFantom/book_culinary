@@ -1,5 +1,6 @@
+import 'package:book_culinary/helpers/constants/app_string.dart';
 import 'package:book_culinary/helpers/constants/constant_colors.dart';
-import 'package:book_culinary/view/section/favorites/cubit/favorites_cubit.dart';
+import 'package:book_culinary/view/section/detailed_recipe/cubit/detailed_recipe_cubit.dart';
 import 'package:book_culinary/view/section/favorites/favorites_screen.dart';
 import 'package:book_culinary/view/section/home_screen/cubit/meals_cubit.dart';
 import 'package:book_culinary/view/section/home_screen/cubit/meals_state.dart';
@@ -18,12 +19,18 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   late final MealsCubit _mealsCubit;
-  late final FavoritesCubit _favoritesCubit;
+  late final MealCubit _mealCubit;
 
   @override
   void initState() {
     _mealsCubit = context.read();
+    _mealCubit = context.read();
     _mealsCubit.fetchAllMeals();
+    _mealCubit.fetchAllRecipeStep();
+    _mealCubit.fetchAllRecipeStepLink();
+    _mealCubit.fetchAllIngredients();
+    _mealCubit.fetchIngredients();
+    _mealCubit.fetchMeasureUnit();
     super.initState();
   }
 
@@ -53,25 +60,25 @@ class _MainScreenState extends State<MainScreen> {
                 icon: ImageIcon(
                   AssetImage('assets/svg/pizza2.png'),
                 ),
-                label: 'Рецепты',
+                label: AppStrings.recipes,
               ),
               BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage('assets/svg/fridge.png'),
                 ),
-                label: 'Холодильник',
+                label: AppStrings.fridge,
               ),
               BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage('assets/svg/favorites.png'),
                 ),
-                label: 'Избранное',
+                label: AppStrings.favorites,
               ),
               BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage('assets/svg/profile.png'),
                 ),
-                label: 'Профиль',
+                label: AppStrings.profile,
               ),
             ],
             onTap: (int tappedIndex) {
@@ -96,9 +103,9 @@ class _MainScreenState extends State<MainScreen> {
                 if (state.error != null) {}
               },
             ),
-            Text('Холодильник'),
+            const Text(AppStrings.fridge),
             const FavoritesScreen(),
-            Text('Профиль'),
+            const Text(AppStrings.profile),
           ][_selectedIndex],
         ),
       ),

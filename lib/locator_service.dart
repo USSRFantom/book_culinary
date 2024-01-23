@@ -17,7 +17,7 @@ Future<void> init() async {
 
 Future<void> initInjections(GetIt serviceLocator) async {
   serviceLocator.registerLazySingleton(() => MealsCubit(serviceLocator()));
-  serviceLocator.registerLazySingleton(() => MealCubit(serviceLocator()));
+  serviceLocator.registerLazySingleton(() => MealCubit(serviceLocator(), serviceLocator()));
   serviceLocator.registerLazySingleton(() => FavoritesCubit(serviceLocator()));
   serviceLocator.registerLazySingleton(
     () => MealsRepository(
